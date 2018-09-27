@@ -143,12 +143,12 @@ var Boot = new Phaser.Class({
 
         // For all Scenes
         this.load.image('background', 'assets/images/background.png');
-        this.load.spritesheet('title', 'assets/images/PovinMath.png', {
+        this.load.spritesheet('title', 'assets/images/PovinCalc.png', {
             frameWidth: 400,
             frameHeight: 141
         });
 
-        // Math Game Scene - Images
+        // Calc Game Scene - Images
         this.load.spritesheet('invader', 'assets/images/invader32x32x4.png', {
             frameWidth: 32,
             frameHeight: 32
@@ -162,7 +162,7 @@ var Boot = new Phaser.Class({
             frameHeight: 52
         });
 
-        // Math Game Scene - Audio
+        // Calc Game Scene - Audio
         this.load.audio('perfectSfx', 'assets/audio/SUCCESS_PICKUP_Collect_Chime_01.wav');
         this.load.audio('wrongSfx', 'assets/audio/TECH CHARGER Power Down 05.wav');
         this.load.audio('lateSfx', 'assets/audio/ELECTRIC Power Down 02.wav'); 

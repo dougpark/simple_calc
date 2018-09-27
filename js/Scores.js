@@ -1,5 +1,5 @@
 /**************************************************************************************
-* Scores Scene (Povin Speed Math)
+* Scores Scene (Povin Super Calc)
 * @author Doug Park
 * @version v1.0
 * @desc Display Menu Options
@@ -59,7 +59,7 @@ var Scores = new Phaser.Class({
          Povin.place(this.footerTile, 0.5, 0.85);
 
          // Title Heading
-         this.titleHeading = this.add.text(0, 0, 'Povin Speed Math', {
+         this.titleHeading = this.add.text(0, 0, 'Povin Super Calc', {
              font: style.headerFont,
              fill: style.headerText,
              align: 'center'

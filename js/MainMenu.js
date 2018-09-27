@@ -1,5 +1,5 @@
 /**************************************************************************************
-* MainMenu Scene (Povin Speed Math)
+* MainMenu Scene (Povin Super Calc)
 * @author Doug Park
 * @version v1.0
 * @desc Display Menu Options
@@ -743,6 +743,6 @@ var MainMenu = new Phaser.Class({
         //option.level = option.maxLevel; // x 
         //option.min = option.minFactor; // y
         option.questionType = option.arithmeticType;
-        this.scene.start('PMath');
+        this.scene.start('Calc');
     },
 });

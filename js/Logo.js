@@ -1,5 +1,5 @@
 /**************************************************************************************
-* Logo Scene (Povin Speed Math)
+* Logo Scene (Povin Super Calc)
 * @author Doug Park
 * @version v1.0
 * @desc Show logo

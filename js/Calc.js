@@ -1,9 +1,9 @@
 /**************************************************************************************
-* Math Scene (Povin Speed Math)
+* Calc Scene (Povin Super Calc)
 * @author Doug Park, Povingames.com
 * @email doug@povingames.com
 * @version v1.0
-* @desc Play the Povin Speed Math Game
+* @desc Play the Povin Speed Super Calc game
 * @date 2018-09-06
 **************************************************************************************/
 "use strict"
