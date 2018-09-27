@@ -1,7 +1,8 @@
 # Povin Calc
+
 A simple calculator
 
-Built on phaser.io Phaser 3 framework
+Built on [phaser.io](https://phaser.io) Phaser 3 framework
 
 Mobile First
 
