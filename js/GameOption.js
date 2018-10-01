@@ -40,3 +40,5 @@ GameOption.id = GameOption.getPlayerId() + '.';
 //GameOption.level = GameOption.maxLevel; // x 
 //GameOption.factor = GameOption.factor; // y
 GameOption.questionType = GameOption.arithmeticType;
+
+GameOption.scoreArr = {};

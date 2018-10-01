@@ -34,7 +34,7 @@ var Logo = new Phaser.Class({
     },
 
     nextScene: function() {
-        this.scene.start('MainMenu');
+        this.scene.start('Calc');
     }
 
 });
