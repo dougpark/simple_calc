@@ -26,7 +26,7 @@ var Logo = new Phaser.Class({
     update: function () {
         //this.time.events.add(1000, this.nextScene, this);   
         var timedEvent = this.time.addEvent({
-            delay: 1000,
+            delay: 250,
             callback: this.nextScene,
             callbackScope: this
         });

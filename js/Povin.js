@@ -13,7 +13,6 @@ var Povin = {
 
     // Povin Properties 
     game: null, // must initialize in game init method: Povin.game = game; 
-    gameLevel: 1,
     SFXStatus: true,
     scoreArr: {},  // storge obj for all levels and keys
     historyArr: {}, // store history of all level and all games
@@ -188,46 +187,46 @@ var Povin = {
     },
 
     center: function (obj) {
-        obj.x = game.width / 2;
-        obj.y = game.height / 2;
+        obj.x = game.config.width / 2;
+        obj.y = game.config.height / 2;
     },
     centerH: function (obj) {
-        obj.x = game.width / 2;
+        obj.x = game.config.width / 2;
     },
     centerV: function (obj) {
-        obj.y = game.height / 2;
+        obj.y = game.config.height / 2;
     },
     centerGroup: function (obj) {
-        obj.x = game.width / 2 - obj.width / 2;
-        obj.y = game.height / 2 - obj.height / 2;
+        obj.x = game.config.width / 2 - obj.width / 2;
+        obj.y = game.config.height / 2 - obj.height / 2;
     },
     centerGroupV: function (obj) {
-        obj.y = game.height / 2 - obj.height / 2;
+        obj.y = game.config.height / 2 - obj.height / 2;
     },
     centerGroupH: function (obj) {
-        obj.x = game.width / 2 - obj.width / 2;
+        obj.x = game.config.width / 2 - obj.width / 2;
     },
     alignToBottom: function (obj, offset = 0) {
-        obj.y = game.height - obj.height / 2;
+        obj.y = game.config.height - obj.height / 2;
         obj.y += offset;
     },
     fromBottom: function (obj, percent, offset = 0) {
-        obj.y = game.height - (game.height * percent);
+        obj.y = game.config.height - (game.config.height * percent);
         obj.y -= offset;
     },
 
     fromRight: function (obj, percent, offset = 0) {
-        obj.x = game.width - (game.width * percent);
+        obj.x = game.config.width - (game.config.width * percent);
         obj.x -= offset;
         //obj.x -= obj.width / 2; 
     },
 
     fromCenterH: function (obj, percent) {
-        obj.x = game.width / 2 - (game.width * percent);
+        obj.x = game.config.width / 2 - (game.config.width * percent);
         obj.x -= obj.width / 2;
     },
     fromCenterV: function (obj, percent) {
-        obj.x = game.width / 2 - (game.width * percent);
+        obj.x = game.config.width / 2 - (game.config.width * percent);
         obj.x -= obj.width / 2;
     },
 

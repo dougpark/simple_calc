@@ -34,8 +34,8 @@ var zoom = 1 / window.devicePixelRatio; // set zoom
 
 // try to work with desktops and landscape phones
 if (width / height > .7) { // compromize solution
-    width = height * .5625; // default to 9/16 portrait aspect ratio
-    zoom = width/height;
+    width = Math.round(height * .5625); // default to 9/16 portrait aspect ratio
+    zoom = (width/height).toFixed(4);
 }
 var deviceScale = 1/zoom;
 
@@ -67,8 +67,7 @@ window.onload = function () {
         scene: [Boot, CheckOrientation, Logo, MainMenu, Calc, Scores]
     };
     game = new Phaser.Game(gameConfig);
-    
-    
+     
     window.focus()
     resize();
     window.addEventListener("resize", resize, false);
@@ -127,11 +126,6 @@ var Boot = new Phaser.Class({
             {frameWidth: 53,
              frameHeight: 53
             });
-        this.load.spritesheet('buttonSpeaker', 'assets/buttons/button_speaker3.png', {
-            frameWidth: 38,
-            frameHeight: 40
-        });
-        
         this.load.spritesheet('buttonPlus', 'assets/buttons/plus.png', {
             frameWidth: 46,
             frameHeight: 46
@@ -179,6 +173,7 @@ var Boot = new Phaser.Class({
     },
 
     gameResized: function (width, height) {
+        console.log('resize event '+width + ' x '+height);
 
         //  This could be handy if you need to do any extra processing if the game resizes.
         //  A resize could happen if for example swapping orientation on a device.
@@ -211,6 +206,7 @@ var Boot = new Phaser.Class({
 
 
 function resize() {
+   
     var canvas = document.querySelector("canvas");
     var windowWidth = window.innerWidth;
     var windowHeight = window.innerHeight;
@@ -222,6 +218,14 @@ function resize() {
     } else {
         canvas.style.width = (windowHeight * gameRatio) + "px";
         canvas.style.height = windowHeight + "px";
+    }
+
+    // change to true to see details
+    if (false) {
+         console.log('resize() event');
+         console.log('windowWidth= '+windowWidth + ', windowHeight= '+windowHeight+' ,windowRatio= '+windowRatio);
+         console.log('gameWidth= '+game.config.width + ', gameHeight= '+game.config.height+' ,gameRatio= '+gameRatio);
+         console.log('canvas.style.width= '+canvas.style.width + ', canvas.style.height= '+canvas.style.height);
     }
 }
 

@@ -23,7 +23,7 @@ var Calc = new Phaser.Class({
      
         this.timer = false;
         this.roundComplete = false;
-        this.needToPass = option.factor-option.minFactor+1;
+        this.needToPass = GameOption.factor-GameOption.minFactor+1;
 
          // Global Properties  
         this.trigger = true;   
@@ -31,7 +31,7 @@ var Calc = new Phaser.Class({
         this.questRight = 0;
         this.questCum = 0;
         this.lastRandom = 0;
-        Povin.next = 0;  
+        GameOption.next = 0;  
         game.ctx = this;
     },
 
@@ -79,26 +79,26 @@ var Calc = new Phaser.Class({
         this.lateSfx = this.sound.add('lateSfx');
 
         // background Tile
-        this.backTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(1), style.bodyBackgroundH).setOrigin(.5, 0);
+        this.backTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(1), GameStyle.bodyBackgroundH).setOrigin(.5, 0);
         Povin.place(this.backTile, 0.5, 0);
 
         // header Tile
-        this.headerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), style.headerBackgroundH).setOrigin(.5, 0);
+        this.headerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), GameStyle.headerBackgroundH).setOrigin(.5, 0);
         Povin.place(this.headerTile, 0.5, 0);
 
         // question Tile
-        this.questionTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), style.footerBackgroundH).setOrigin(.5, 0);
+        this.questionTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), GameStyle.footerBackgroundH).setOrigin(.5, 0);
         Povin.place(this.questionTile, 0.5, 0.4);
 
 
         // footer Tile
-        this.footerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), style.footerBackgroundH).setOrigin(.5, 0);
+        this.footerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), GameStyle.footerBackgroundH).setOrigin(.5, 0);
         Povin.place(this.footerTile, 0.5, 0.85);
 
         // Title Heading
         this.titleHeading = this.add.text(0, 0, 'Povin Calc', {
-            font: style.headerFont,
-            fill: style.headerText,
+            font: GameStyle.headerFont,
+            fill: GameStyle.headerText,
             align: 'center'
         }).setScale(deviceScale);
         this.titleHeading.setOrigin(0.5, 0.5);
@@ -107,7 +107,7 @@ var Calc = new Phaser.Class({
         // Speaker button to start/stop the background music
         this.buttonSpeaker = new SpeakerButton({
             scene: this,
-            style: style.headerGraphicH,
+            style: GameStyle.headerGraphicH,
         });
         this.buttonSpeaker.on('pointerdown', function () {
             Povin.actionOnClickSpeaker({
@@ -121,7 +121,7 @@ var Calc = new Phaser.Class({
         // Home button to return to the main menu
         this.buttonHome = new MenuButton({
             scene: this,
-            style: style.headerGraphicH,
+            style: GameStyle.headerGraphicH,
         });
         this.buttonHome.on('pointerdown', function () {
             Povin.actionOnClickHome({
@@ -134,9 +134,9 @@ var Calc = new Phaser.Class({
 
         // Go Button
         // this.buttonGo = this.add.text(0, 0, '      Go      ', {
-        //     font: style.footerFont,
-        //     fill: style.footerText,
-        //     backgroundColor: style.footerTextBackground,
+        //     font: GameStyle.footerFont,
+        //     fill: GameStyle.footerText,
+        //     backgroundColor: GameStyle.footerTextBackground,
         //     align: 'center'
         // }).setInteractive();
 
@@ -145,9 +145,9 @@ var Calc = new Phaser.Class({
             width: Povin.placeX(.40),
             height: Povin.placeY(.08),
             text: 'Go',
-            textFont: style.footerFont,
-            textStyle: style.footerText,
-            backgroundColor: style.footerTextBackgroundH
+            textFont: GameStyle.footerFont,
+            textStyle: GameStyle.footerText,
+            backgroundColor: GameStyle.footerTextBackgroundH
         });
         // //this.buttonGo.on('pointerdown', this.actionOnClickGo,this);
         this.buttonGo.on('pointerdown', function () {
@@ -182,7 +182,7 @@ var Calc = new Phaser.Class({
             ease: 'Phaser.Math.Easing.Linear',
             yoyo: true,
             repeat: -1,
-            duration: option.buzzer
+            duration: GameOption.buzzer
         });
         
         
@@ -190,7 +190,7 @@ var Calc = new Phaser.Class({
         // One Button
          this.button1 = new RoundButton({
             scene: this,
-            style: style.bodyGraphicH,
+            style: GameStyle.bodyGraphicH,
             type: 'select'
         });
         this.button1.on('pointerdown', function () {
@@ -205,7 +205,7 @@ var Calc = new Phaser.Class({
         // Two Button
          this.button2 = new RoundButton({
             scene: this,
-            style: style.bodyGraphicH,
+            style: GameStyle.bodyGraphicH,
             type: 'select'
         });
         this.button2.on('pointerdown', function () {
@@ -220,7 +220,7 @@ var Calc = new Phaser.Class({
         // Three Button
       this.button3 = new RoundButton({
             scene: this,
-            style: style.bodyGraphicH,
+            style: GameStyle.bodyGraphicH,
             type: 'select'
         });
         this.button3.on('pointerdown', function () {
@@ -241,8 +241,8 @@ var Calc = new Phaser.Class({
         this.qString = ' Press Go \n to Start ';
         this.qText = this.add.text(0, 0, this.qString, { 
             font: '30px ' + this.myFont2, 
-            fill: style.bodyBackground, //'#ebebeb', 
-            //backgroundColor: style.bodyText, // new
+            fill: GameStyle.bodyBackground, //'#ebebeb', 
+            //backgroundColor: GameStyle.bodyText, // new
             align: 'center' 
         }).setScale(deviceScale);
         this.qText.setOrigin(0.5,0.5);
@@ -252,8 +252,8 @@ var Calc = new Phaser.Class({
         this.sString = '';
         this.sText = this.add.text(0, 0, this.sString, { 
             font: '24px ' + this.myFont, 
-            fill: style.bodyText, //'#ebebeb',
-            //backgroundColor: style.bodyText, // new
+            fill: GameStyle.bodyText, //'#ebebeb',
+            //backgroundColor: GameStyle.bodyText, // new
             align: 'center'
             }).setScale(deviceScale);
         this.sText.setOrigin(0.5, 0.5);
@@ -263,8 +263,8 @@ var Calc = new Phaser.Class({
         this.qRString = '';
         this.qRText = this.add.text(0, 0, this.qRString, { 
             font: '24px ' + this.myFont, 
-            fill: style.bodyText, //'#ebebeb', 
-            //backgroundColor: style.bodyText, // new
+            fill: GameStyle.bodyText, //'#ebebeb', 
+            //backgroundColor: GameStyle.bodyText, // new
             align: 'center' 
         }).setScale(deviceScale);
         this.qRText.setOrigin(0.5, 0.5);
@@ -274,8 +274,8 @@ var Calc = new Phaser.Class({
         this.qWString = '';
         this.qWText = this.add.text(0, 0, this.qRString, { 
             font: '24px ' + this.myFont, 
-            fill: style.bodyBackground, //'#ebebeb', 
-            backgroundColor: style.bodyHeading, //'#ad0000', // new
+            fill: GameStyle.bodyBackground, //'#ebebeb', 
+            backgroundColor: GameStyle.bodyHeading, //'#ad0000', // new
             align: 'center'
             }).setScale(deviceScale);
         this.qWText.setOrigin(0.5, 0.5);
@@ -284,8 +284,8 @@ var Calc = new Phaser.Class({
         //  Answer 1 Text
         this.a1String = '';
         this.a1Text = this.add.text(0, 0, this.a1String, {
-                    font: style.bodyFont,
-                    fill: style.bodyText,
+                    font: GameStyle.bodyFont,
+                    fill: GameStyle.bodyText,
                     align: 'center'
                 }).setScale(deviceScale);
         this.a1Text.setOrigin(0.5, 0.5);
@@ -294,8 +294,8 @@ var Calc = new Phaser.Class({
         //  Answer 2 Text
         this.a2String = '';
         this.a2Text = this.add.text(0, 0, this.a2String, {
-            font: style.bodyFont,
-            fill: style.bodyText,
+            font: GameStyle.bodyFont,
+            fill: GameStyle.bodyText,
             align: 'center'
         }).setScale(deviceScale);
         this.a2Text.setOrigin(0.5, 0.5);
@@ -304,8 +304,8 @@ var Calc = new Phaser.Class({
         //  Answer 3 Text
         this.a3String = '';
         this.a3Text = this.add.text(0, 0, this.a3String, {
-            font: style.bodyFont,
-            fill: style.bodyText,
+            font: GameStyle.bodyFont,
+            fill: GameStyle.bodyText,
             align: 'center'
         }).setScale(deviceScale);
         this.a3Text.setOrigin(0.5, 0.5);
@@ -314,17 +314,17 @@ var Calc = new Phaser.Class({
         // Level Heading
         this.cString = 'Level';
         this.cText = this.add.text(0, 0, this.cString, {
-            font: style.bodyFont,
-            fill: style.bodyHeading,
+            font: GameStyle.bodyFont,
+            fill: GameStyle.bodyHeading,
             align: 'center'
         }).setScale(deviceScale);
         this.cText.setOrigin(0.5, 0.5);
         Povin.place(this.cText, 0.2, 0.24);
         // Level Text
-        this.c2String = option.level;
+        this.c2String = GameOption.level;
         this.c2Text = this.add.text(0, 0, this.c2String, {
-            font: style.bodyFont,
-            fill: style.bodyText,
+            font: GameStyle.bodyFont,
+            fill: GameStyle.bodyText,
             align: 'center'
         }).setScale(deviceScale);
         this.c2Text.setOrigin(0.5, 0.5);
@@ -333,8 +333,8 @@ var Calc = new Phaser.Class({
         // Right Count Heading
         this.rString = 'Right';
         this.rText = this.add.text(0, 0, this.rString, {
-            font: style.bodyFont,
-            fill: style.bodyHeading,
+            font: GameStyle.bodyFont,
+            fill: GameStyle.bodyHeading,
             align: 'center'
         }).setScale(deviceScale);
         this.rText.setOrigin(0.5, 0.5);
@@ -342,8 +342,8 @@ var Calc = new Phaser.Class({
         // Right Count Text
         this.r2String = '0';
         this.r2Text = this.add.text(0, 0, this.r2String, {
-            font: style.bodyFont,
-            fill: style.bodyText,
+            font: GameStyle.bodyFont,
+            fill: GameStyle.bodyText,
             align: 'center'
         }).setScale(deviceScale);
         this.r2Text.setOrigin(0.5, 0.5);
@@ -352,8 +352,8 @@ var Calc = new Phaser.Class({
         // Timer Heading
         this.tHString = 'Time';
         this.tHText = this.add.text(0, 0, this.tHString, {
-            font: style.bodyFont,
-            fill: style.bodyHeading,
+            font: GameStyle.bodyFont,
+            fill: GameStyle.bodyHeading,
             align: 'center'
         }).setScale(deviceScale);
         this.tHText.setOrigin(0.5, 0.5);
@@ -361,8 +361,8 @@ var Calc = new Phaser.Class({
         // Timer Text
         this.timerString = '0';
         this.timerText = this.add.text(0, 0, this.timerString, {
-            font: style.bodyFont,
-            fill: style.bodyText,
+            font: GameStyle.bodyFont,
+            fill: GameStyle.bodyText,
             align: 'center'
         }).setScale(deviceScale);
         this.timerText.setOrigin(0.5, 0.5);
@@ -430,14 +430,14 @@ var Calc = new Phaser.Class({
             //late
             var diff = (this.time.now - this.startTime);
             
-            if ((this.trigger) && ( diff >= option.buzzer)) {
+            if ((this.trigger) && ( diff >= GameOption.buzzer)) {
                 this.trigger = false;
                 this.slow = true;
                 if (Povin.SFXStatus) { this.lateSfx.play(); }
             }
             
             // to slow, time out
-            if (diff > option.buzzer*2) {
+            if (diff > GameOption.buzzer*2) {
                 this.trigger = false;
                 this.slow = true;
                 if (Povin.SFXStatus) { this.lateSfx.play(); }
@@ -450,8 +450,8 @@ var Calc = new Phaser.Class({
 
     initQuestion: function () {
 
-        this.x = option.level; // get first x value
-        this.y = option.factor+1; // get first y value
+        this.x = GameOption.level; // get first x value
+        this.y = GameOption.factor+1; // get first y value
         this.a = 0;
     },
 
@@ -459,14 +459,14 @@ var Calc = new Phaser.Class({
 
         // determine next x and y values
         this.y--;
-        if (this.y<option.minFactor) {this.y=option.factor}
+        if (this.y<GameOption.minFactor) {this.y=GameOption.factor}
         this.makeKey(); // make next key
         var count = 0;
 
         try {
             while (this.gotIt(this.key)) { // loop till not got it
                 this.y--;
-                if (this.y < option.minFactor) {this.y=option.factor}
+                if (this.y < GameOption.minFactor) {this.y=GameOption.factor}
                 this.makeKey();
 
                 count ++;
@@ -521,7 +521,7 @@ var Calc = new Phaser.Class({
 
     makeKey: function () {
         
-        switch (option.questionType) {
+        switch (GameOption.questionType) {
             case 3: // Multiplication
                 //code block
                 this.a = this.x * this.y;
@@ -630,7 +630,7 @@ var Calc = new Phaser.Class({
         this.qWText.text = '';
         this.trigger = true;
         this.slow = false;
-        //this.qText.style.backgroundColor = '#000000';
+        //this.qText.GameStyle.backgroundColor = '#000000';
 
         this.questCurr++;
         this.nextQuestion();
@@ -702,19 +702,19 @@ var Calc = new Phaser.Class({
 
             // display 'Extended Round' message
             this.sText.text = ' Extended Round ';
-            //this.sText.style.backgroundColor = '#979696';
+            //this.sText.GameStyle.backgroundColor = '#979696';
         }
 
         if (this.roundComplete) {
 
             // display 'Round Complete' message
             this.sText.text = ' Round Complete! '
-            //this.sText.style.backgroundColor = '#005300';
+            //this.sText.GameStyle.backgroundColor = '#005300';
         }
     },
 
     saveResults: function (right, key, timer) {
-        key = option.getPlayerId()+'.' + key; // key = playerid + equation. ex. "player1.6 x 7"
+        key = GameOption.getPlayerId()+'.' + key; // key = playerid + equation. ex. "player1.6 x 7"
 
         var currTime;
         var runningTimeAvg;
@@ -727,7 +727,7 @@ var Calc = new Phaser.Class({
             currTime = Number(timer); // convert this try timer into number for current try
 
             // check array for previous trys on this key
-            prevKey = Povin.scoreArr[key]; // get previous try data from array, fails 1st time
+            prevKey = GameOption.scoreArr[key]; // get previous try data from array, fails 1st time
             prevCount = Number(prevKey.totCount); // previous number of tries     
             prevAvg = Number(prevKey.runningTimeAvg); // previous running avg for all tries
 
@@ -746,16 +746,16 @@ var Calc = new Phaser.Class({
         }
 
         // store time, right, avg, and count
-        Povin.scoreArr[key] = { student: option.getPlayerId(), time: currTime, level: option.level, factor: this.y, right: right, runningTimeAvg: runningTimeAvg, totCount: totCount, keyD: this.keyD };
-        //console.log(Povin.scoreArr);
+        GameOption.scoreArr[key] = { student: GameOption.getPlayerId(), time: currTime, level: GameOption.level, factor: this.y, right: right, runningTimeAvg: runningTimeAvg, totCount: totCount, keyD: this.keyD };
+        //console.log(GameOption.scoreArr);
     },
 
     countOfPassed: function() {
 
         var count = 0;
-        for (let obj of Object.values(Povin.scoreArr)) {
+        for (let obj of Object.values(GameOption.scoreArr)) {
 
-            if (obj.right && obj.time <= option.buzzer) {
+            if (obj.right && obj.time <= GameOption.buzzer) {
                 count++// right and fast - GotIt!
             } else {
                 // still not correct
@@ -766,13 +766,13 @@ var Calc = new Phaser.Class({
 
     countOfTried: function() {
 
-        return Object.keys(Povin.scoreArr).length;
+        return Object.keys(GameOption.scoreArr).length;
 
     },
 
     finishedBaseRound: function() { 
 
-        if (this.countOfTried() == (option.factor-option.minFactor)+1 ) {
+        if (this.countOfTried() == (GameOption.factor-GameOption.minFactor)+1 ) {
             return true;
         } else {
             return false;
@@ -783,9 +783,9 @@ var Calc = new Phaser.Class({
     // check if key has been answered correctly and in required time
     gotIt: function (key) {
 
-        key = option.getPlayerId()+'.' + key;
-        //console.log('gotIt='+key + Povin.scoreArr[key])
-        if (Povin.scoreArr[key].right && Povin.scoreArr[key].time <= option.buzzer) {
+        key = GameOption.getPlayerId()+'.' + key;
+        //console.log('gotIt='+key + GameOption.scoreArr[key])
+        if (GameOption.scoreArr[key].right && GameOption.scoreArr[key].time <= GameOption.buzzer) {
             return true; // right and fast - GotIt!
         } else {
             return false; // still needs to study this one
@@ -798,7 +798,7 @@ var Calc = new Phaser.Class({
         // showAnswer
         if (showAnswer) {
             this.qText.text = '     '+this.qText.text+' = '+this.a + '     ';
-            //this.qText.style.backgroundColor = '#005300';
+            //this.qText.GameStyle.backgroundColor = '#005300';
         }
 
         // correct number of questions

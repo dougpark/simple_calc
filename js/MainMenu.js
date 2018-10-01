@@ -7,220 +7,6 @@
 **************************************************************************************/
 "use strict";
 
-// game defined options
-var option = {};
-
-option.timeGoal = 3;
-option.timeGoalValues = [0,1,1.5,2,2.5,3];
-option.timeGoalArray = ['Error','1 Second', '1.5 Seconds', '2 Seconds', '2.5 Seconds', '3 Seconds'];
-option.getTimeGoal = function () {return option.timeGoalArray[option.timeGoal]};
-
-option.playerId = 1;
-option.playerIdArray = ['Error','Player 1','Player 2','Player 3','Player 4','Player 5'];
-option.getPlayerId = function () { return option.playerIdArray[option.playerId]};
-
-option.arithmeticType = 3;
-option.arithmeticArray = ['Error','Add +','Subtract -','Multiply x','Divide ÷'];
-option.arithmeticSymbol = ['e', '+', '-', 'x','÷'];
-option.getTypeId = function () {return option.arithmeticType}
-option.getTypeSym = function (id = option.arithmeticType) { 
-    return option.arithmeticSymbol[id];
-};
-option.getTypeSt = function (id=option.arithmeticType) { 
-    return option.arithmeticArray[id];
-};
-
-option.level = 5;
-option.factor = 10;
-option.minFactor = 2;
-
-option.buzzer = option.getTimeGoal()*1000;
-option.id = option.getPlayerId() + '.';
-//option.level = option.maxLevel; // x 
-//option.factor = option.factor; // y
-option.questionType = option.arithmeticType;
-
-// game UI settings
-var style = {};
-
-style.headerFont = '19px VenusRising';
-style.headerBackgroundH = '0xb92b27'; // #b92b27
-style.headerText = '#ffffff';
-style.headerGraphicH = '0xffffff'; //#ffffff
-
-style.bodyFont = '18px VenusRising';
-style.bodyBackgroundH = '0xffffff'; // #ffffff
-style.bodyBackground = '#ffffff';
-//style.bodyBackgroundHighlight = '0xe6e6e6'; // #e6e6e6
-style.bodyHeading = '#b92b27';
-style.bodyText = '#333333';
-style.bodyGraphicH = '0xb92b27'; //#b92b27 //'0x2092ea'; //#2092ea
-
-style.resultBackgroundH = '0x222222';
-
-style.footerFont = '24px VenusRising';
-style.footerBackgroundH = '0x333333'; // #333333
-style.footerTextBackground = '#ffffff'; //#ffffff
-style.footerTextBackgroundH = '0xffffff'; //#ffffff
-style.footerText = '#b92b27'; //'#2092ea'
-
-class TextButton extends Phaser.GameObjects.Container {
-    constructor(config) { // {scene, width, height, text, textFont, textStyle, 0xbackgroundColor}
-        super(config.scene, 0, 0);
-
-        var b1 = config.scene.add.rectangle(0, 0, config.width*zoom, config.height*zoom, config.backgroundColor);
-        var b2 = config.scene.add.text(0, 0, config.text, {
-            font: config.textFont,
-            fill: config.textStyle,
-            align: 'center'
-        });
-        b2.setOrigin(.5,.5);
-           
-        this.add([b1, b2]);
-        this.setSize(config.width*zoom, config.height*zoom);
-        this.setInteractive();
-        this.setScale(deviceScale);
-        this.normScale = this.scaleX;
-        config.scene.add.existing(this);
-    }
-};
-
-class RoundButton extends Phaser.GameObjects.Container {
-    constructor(config) {
-        super(config.scene, 0, 0);
- 
-        var b1 = config.scene.add.arc(0, 0, 20, 0, 360, false);
-        b1.setStrokeStyle(2, config.style);
-        if (config.type=='plus') {
-            var b2 = config.scene.add.line(0, 0, 0, 20, 0, 0);
-            var b3 = config.scene.add.line(0, 0, 0, 0, 20, 0);
-            b2.setStrokeStyle(1, config.style);
-            b3.setStrokeStyle(1, config.style);
-            
-        } else if (config.type =='minus') {
-            var b2 = config.scene.add.line(0, 0, 0, 0, 20, 0);
-            var b3 = config.scene.add.line(0, 0, 0, 0, 20, 0);
-            b2.setStrokeStyle(1, config.style);
-            b3.setStrokeStyle(1, config.style);
-
-        } else if (config.type == 'select') {
-            var b2 = config.scene.add.rectangle(0, 0, 20, 20);
-            b2.visFrame = 1;
-            var b3 = config.scene.add.rectangle(0, 0, 20, 20);
-            b3.visFrame = 1;
-            b2.setStrokeStyle(1, config.style);
-            b3.setStrokeStyle(1, config.style);
-        }
-        this.add([b1, b2, b3]);
-        this.setSize(40,40);
-        this.setInteractive();
-        config.scene.add.existing(this);
-        this.setScale(deviceScale);
-        this.normScale = this.scaleX;
-        this.setFrame(0);
-    }
-
-    setFrame(frame) {
-        this.getAll().forEach(function (item) {
-            if (item.visFrame == frame) {
-                item.visible = true;
-            } else {
-                item.visible = false;
-            }
-            if (item.visFrame === undefined) {
-                item.visible = true;
-            }
-
-        }, this);
-
-    }
-};
-
-class MenuButton extends Phaser.GameObjects.Container {
-    constructor(config) {
-        super(config.scene, 0, 0);
-            //var b2 = scene.add.rectangle(0, 0, 20, 20);
-            var b1 = config.scene.add.line(0, 0, 0, 0, 30, 0);
-            var b2 = config.scene.add.line(0, 0, 0, 10, 30, 10);
-            var b3 = config.scene.add.line(0, 0, 0, 20, 30, 20);
-            b1.setStrokeStyle(1, config.style);
-            b2.setStrokeStyle(1, config.style);
-            b3.setStrokeStyle(1, config.style);
-        
-            this.add([b1, b2, b3]);
-            this.setSize(40, 40);
-            this.setInteractive();
-            config.scene.add.existing(this);
-            this.setScale(deviceScale);
-            this.normScale = this.scaleX;
-
-            
-    }
-};
-
-class SpeakerButton extends Phaser.GameObjects.Container {
-    constructor(config) {
-        super(config.scene, 0, 0);
-        
-        //var b2 = scene.add.rectangle(0, 0, 20, 20);
-        var b1 = config.scene.add.line(8, 0, 0, 20, 20, 0, config.style);
-        b1.setLineWidth(2, 2);
-        b1.visFrame = 1;
-
-        var b1a = config.scene.add.line(8, 0, 0, 0, 20, 20, config.style);
-        b1a.setLineWidth(2, 2);
-        b1a.visFrame = 1;
-
-        var b2 = config.scene.add.line(0, 0, 0, 0, 15, 0, config.style);
-        b2.setLineWidth(1, 9);
-        var b2c = config.scene.add.rectangle(-4, 1, 7, 7, config.style);
-        
-        var b2a = config.scene.add.arc(10, 0, 8, 270, 450, false);
-        b2a.setStrokeStyle(1, config.style);
-        
-        var b2b = config.scene.add.arc(14, 0, 10, 270, 450, false);
-        b2b.setStrokeStyle(1, config.style);
-         config.scene.tweens.add({
-             targets: [b2a,b2b],
-             scaleX: 1.2,
-             scaleY: 1,
-             yoyo: true,
-             repeat: -1,
-             ease: 'Sine.easeInOut'
-
-         });
-    
-        // add the graphicObjects to the container
-        this.add([b1, b1a, b2, b2a, b2b, b2c]);
-        this.setSize(40, 40);
-        this.setInteractive();
-        this.setScale(deviceScale);
-        this.normScale = this.scaleX;
-        
-        // add container to the scene
-        config.scene.add.existing(this);
-
-        // set initial frame to show
-        this.setFrame(0);
-
-    }
-
-    setFrame (frame) { 
-        this.getAll().forEach(function(item) {
-            if (item.visFrame == frame) {
-                item.visible = true;
-            } else {
-                item.visible = false;
-            }
-            if (item.visFrame === undefined) {
-                item.visible = true;
-            }
-
-        },this);
-      
-    }
-};
-
 var MainMenu = new Phaser.Class({
             Extends: Phaser.Scene,
             initialize: function mainMenu() {
@@ -231,7 +17,7 @@ var MainMenu = new Phaser.Class({
 
     init: function () {
         
-        option.level += Povin.next; // increase the level from last game
+        GameOption.level += GameOption.next; // increase the level from last game
         this.boundLevel();
 
         // save scene context for callback functions
@@ -248,22 +34,24 @@ var MainMenu = new Phaser.Class({
             this.nextScene();
         },this);
 
+        
+
         // background Tile
-        this.backTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(1), style.bodyBackgroundH).setOrigin(.5, 0);
+        this.backTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(1), GameStyle.bodyBackgroundH).setOrigin(.5, 0);
         Povin.place(this.backTile, 0.5, 0);
 
         // header Tile
-        this.headerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), style.headerBackgroundH).setOrigin(.5, 0);
+        this.headerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), GameStyle.headerBackgroundH).setOrigin(.5, 0);
         Povin.place(this.headerTile, 0.5, 0);
 
         // footer Tile
-        this.footerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), style.footerBackgroundH).setOrigin(.5, 0);
+        this.footerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), GameStyle.footerBackgroundH).setOrigin(.5, 0);
         Povin.place(this.footerTile, 0.5, 0.85);
 
         // Title Heading
-        this.titleHeading = this.add.text(0, 0, 'Povin Calc', {
-            font: style.headerFont,
-            fill: style.headerText,
+        this.titleHeading = this.add.text(0, 0, 'Povin Super Calc', {
+            font: GameStyle.headerFont,
+            fill: GameStyle.headerText,
             align: 'center'
         }).setScale(deviceScale);
         this.normScale = this.scaleX;
@@ -274,7 +62,7 @@ var MainMenu = new Phaser.Class({
         // Speaker button to start/stop the background music
         this.buttonSpeaker = new SpeakerButton({
             scene: this,
-            style: style.headerGraphicH,
+            style: GameStyle.headerGraphicH,
         });
         this.buttonSpeaker.on('pointerdown', function () {
             Povin.actionOnClickSpeaker({
@@ -288,7 +76,7 @@ var MainMenu = new Phaser.Class({
         // Home button to return to the main menu
         this.buttonHome = new MenuButton({
             scene: this,
-            style: style.headerGraphicH,
+            style: GameStyle.headerGraphicH,
         });
         this.buttonHome.on('pointerdown', function () {
             Povin.actionOnClickHome({
@@ -301,9 +89,9 @@ var MainMenu = new Phaser.Class({
 
         // Go Button
         // this.buttonGo = this.add.text(0, 0, '      Go      ', {
-        //      font: style.footerFont,
-        //      fill: style.footerText,
-        //      backgroundColor: style.footerTextBackground,
+        //      font: GameStyle.footerFont,
+        //      fill: GameStyle.footerText,
+        //      backgroundColor: GameStyle.footerTextBackground,
         //      align: 'center'
         //  }).setInteractive();
 
@@ -312,9 +100,9 @@ var MainMenu = new Phaser.Class({
              width: Povin.placeX(.40),
              height: Povin.placeY(.08),
              text: 'Go',
-             textFont: style.footerFont,
-             textStyle: style.footerText,
-             backgroundColor: style.footerTextBackgroundH
+             textFont: GameStyle.footerFont,
+             textStyle: GameStyle.footerText,
+             backgroundColor: GameStyle.footerTextBackgroundH
          });
 
          this.buttonGo.on('pointerdown', this.nextScene, this);
@@ -328,8 +116,8 @@ var MainMenu = new Phaser.Class({
         // Test Type Heading
         //
         this.testTypeHeading = this.add.text(0, 0, 'Test Type', { 
-            font: style.bodyFont, 
-            fill: style.bodyHeading, 
+            font: GameStyle.bodyFont, 
+            fill: GameStyle.bodyHeading, 
             align: 'center' 
         }).setScale(deviceScale);
         this.normScale = this.scaleX;
@@ -337,10 +125,10 @@ var MainMenu = new Phaser.Class({
         Povin.place(this.testTypeHeading, 0.5, 0.25);
 
         // Test Type Text
-        this.testTypeString = option.arithmeticArray[option.arithmeticType];
+        this.testTypeString = GameOption.arithmeticArray[GameOption.arithmeticType];
         this.testTypeText = this.add.text(0, 0, this.testTypeString, { 
-            font: style.bodyFont, 
-            fill: style.bodyText, 
+            font: GameStyle.bodyFont, 
+            fill: GameStyle.bodyText, 
             align: 'center' 
         }).setScale(deviceScale);
         this.normScale = this.scaleX;
@@ -350,7 +138,7 @@ var MainMenu = new Phaser.Class({
         // Test Type Plus Button
         this.buttonTestTypePlus = new RoundButton({
             scene:this, 
-            style:style.bodyGraphicH,
+            style:GameStyle.bodyGraphicH,
             type:'plus'
         });
         this.buttonTestTypePlus.on('pointerdown', function () {
@@ -365,7 +153,7 @@ var MainMenu = new Phaser.Class({
         // Test Type Minus Button
         this.buttonTestTypeMinus = new RoundButton({
             scene: this,
-            style: style.bodyGraphicH,
+            style: GameStyle.bodyGraphicH,
             type: 'minus'
         });
         this.buttonTestTypeMinus.on('pointerdown', function () {
@@ -382,18 +170,18 @@ var MainMenu = new Phaser.Class({
         // Factor Heading
         //
         this.factorHeading = this.add.text(0, 0, 'Factors', { 
-            font: style.bodyFont, 
-            fill: style.bodyHeading, 
+            font: GameStyle.bodyFont, 
+            fill: GameStyle.bodyHeading, 
             align: 'center' 
         }).setScale(deviceScale);
         this.normScale = this.scaleX;
         this.factorHeading.setOrigin(0.5, 0.5);
         Povin.place(this.factorHeading, 0.5, 0.55);
         // Factor Text
-        this.factorString = option.minFactor + " to "+ option.factor;
+        this.factorString = GameOption.minFactor + " to "+ GameOption.factor;
         this.factorText = this.add.text(0, 0, this.factorString, { 
-            font: style.bodyFont, 
-            fill: style.bodyText, 
+            font: GameStyle.bodyFont, 
+            fill: GameStyle.bodyText, 
             align: 'center' 
         }).setScale(deviceScale);
         this.normScale = this.scaleX;
@@ -403,7 +191,7 @@ var MainMenu = new Phaser.Class({
         // factor Plus Button
         this.buttonfactorPlus = new RoundButton({
             scene: this,
-            style: style.bodyGraphicH,
+            style: GameStyle.bodyGraphicH,
             type: 'plus'
         });
         this.buttonfactorPlus.on('pointerdown', function () {
@@ -419,7 +207,7 @@ var MainMenu = new Phaser.Class({
         // factor Minus Button
         this.buttonfactorMinus = new RoundButton({
             scene: this,
-            style: style.bodyGraphicH,
+            style: GameStyle.bodyGraphicH,
             type: 'minus'
         });;
         this.buttonfactorMinus.on('pointerdown', function () {
@@ -435,7 +223,7 @@ var MainMenu = new Phaser.Class({
         // minFactor Plus Button
         this.buttonMinFactorPlus = new RoundButton({
             scene: this,
-            style: style.bodyGraphicH,
+            style: GameStyle.bodyGraphicH,
             type: 'plus'
         });;
         this.buttonMinFactorPlus.on('pointerdown', function () {
@@ -451,7 +239,7 @@ var MainMenu = new Phaser.Class({
         // minFactor Minus Button
         this.buttonMinFactorMinus = new RoundButton({
             scene: this,
-            style: style.bodyGraphicH,
+            style: GameStyle.bodyGraphicH,
             type: 'minus'
         });;
         this.buttonMinFactorMinus.on('pointerdown', function () {
@@ -469,17 +257,17 @@ var MainMenu = new Phaser.Class({
         // Level Heading
         //
         this.levelHeading = this.add.text(0, 0, 'Level', { 
-            font: style.bodyFont, 
-            fill: style.bodyHeading, 
+            font: GameStyle.bodyFont, 
+            fill: GameStyle.bodyHeading, 
             align: 'center' 
         }).setScale(deviceScale);
         this.levelHeading.setOrigin(0.5, 0.5);
         Povin.place(this.levelHeading, 0.5, 0.40);
         // Level Text
-        this.levelString = option.level;
+        this.levelString = GameOption.level;
         this.levelText = this.add.text(0, 0, this.levelString, { 
-            font: style.bodyFont, 
-            fill: style.bodyText, 
+            font: GameStyle.bodyFont, 
+            fill: GameStyle.bodyText, 
             align: 'center' 
         }).setScale(deviceScale);
         this.normScale = this.scaleX;
@@ -489,7 +277,7 @@ var MainMenu = new Phaser.Class({
         // level Plus Button
         this.buttonlevelPlus = new RoundButton({
             scene: this,
-            style: style.bodyGraphicH,
+            style: GameStyle.bodyGraphicH,
             type: 'plus'
         });
         this.buttonlevelPlus.on('pointerdown', function () {
@@ -504,7 +292,7 @@ var MainMenu = new Phaser.Class({
         // level Minus Button
         this.buttonlevelMinus = new RoundButton({
             scene: this,
-            style: style.bodyGraphicH,
+            style: GameStyle.bodyGraphicH,
             type: 'minus'
         });;
         this.buttonlevelMinus.on('pointerdown', function () {
@@ -520,18 +308,18 @@ var MainMenu = new Phaser.Class({
         // Time Goal Heading
         //
         this.tgHeading = this.add.text(0, 0, 'Time Goal', {
-            font: style.bodyFont,
-            fill: style.bodyHeading,
+            font: GameStyle.bodyFont,
+            fill: GameStyle.bodyHeading,
             align: 'center'
         }).setScale(deviceScale);
         this.normScale = this.scaleX;
         this.tgHeading.setOrigin(0.5, 0.5);
         Povin.place(this.tgHeading, 0.5, 0.70);
         // Time Goal Text
-        this.tgString = option.timeGoalArray[option.timeGoal];
+        this.tgString = GameOption.timeGoalArray[GameOption.timeGoal];
         this.tgText = this.add.text(0, 0, this.tgString, {
-            font: style.bodyFont,
-            fill: style.bodyText,
+            font: GameStyle.bodyFont,
+            fill: GameStyle.bodyText,
             align: 'center'
         }).setScale(deviceScale);
         this.normScale = this.scaleX;
@@ -541,7 +329,7 @@ var MainMenu = new Phaser.Class({
         // Tg Plus Button
         this.buttonTgPlus = new RoundButton({
             scene: this,
-            style: style.bodyGraphicH,
+            style: GameStyle.bodyGraphicH,
             type: 'plus'
         });
         this.buttonTgPlus.on('pointerdown', function () {
@@ -555,7 +343,7 @@ var MainMenu = new Phaser.Class({
         // Tg Minus Button
         this.buttonTgMinus = new RoundButton({
             scene: this,
-            style: style.bodyGraphicH,
+            style: GameStyle.bodyGraphicH,
             type: 'minus'
         });;
         this.buttonTgMinus.on('pointerdown', function () {
@@ -606,7 +394,8 @@ var MainMenu = new Phaser.Class({
         this.invader.setOrigin(0.5, 0.5);
         Povin.place(this.invader, .5, .18);
 
-        
+        // Scale Overlay
+        this.scaleOverlay = new ScaleOverlay({ctx: game.ctx});   
 
     }, // end create:
 
@@ -663,65 +452,65 @@ var MainMenu = new Phaser.Class({
     
 
     actionOnClickTestType: function (config) {
-        option.arithmeticType += config.target.direction;
-        if (option.arithmeticType > 4) {
-            option.arithmeticType = 1;
+        GameOption.arithmeticType += config.target.direction;
+        if (GameOption.arithmeticType > 4) {
+            GameOption.arithmeticType = 1;
         }
-        if (option.arithmeticType < 1) {
-            option.arithmeticType = 4;
+        if (GameOption.arithmeticType < 1) {
+            GameOption.arithmeticType = 4;
         }
-        config.ctx.testTypeText.text = option.arithmeticArray[option.arithmeticType];
+        config.ctx.testTypeText.text = GameOption.arithmeticArray[GameOption.arithmeticType];
     },
 
     actionOnClickFactor: function (config) {
         if (config.target.type == 'max') {
-            option.factor += config.target.direction;
-            if (option.factor > 15) {
-                option.factor = option.minFactor;
+            GameOption.factor += config.target.direction;
+            if (GameOption.factor > 15) {
+                GameOption.factor = GameOption.minFactor;
             }
-            if (option.factor < option.minFactor) {
-                option.factor = 15;
+            if (GameOption.factor < GameOption.minFactor) {
+                GameOption.factor = 15;
             }
             
         } else {
-            option.minFactor += config.target.direction;
-            if (option.minFactor > option.factor) {
-                option.minFactor = 1;
+            GameOption.minFactor += config.target.direction;
+            if (GameOption.minFactor > GameOption.factor) {
+                GameOption.minFactor = 1;
             }
-            if (option.minFactor < 1) {
-                option.minFactor = option.factor;
+            if (GameOption.minFactor < 1) {
+                GameOption.minFactor = GameOption.factor;
             }
         }
-        config.ctx.factorText.text = option.minFactor + " to " + option.factor;
+        config.ctx.factorText.text = GameOption.minFactor + " to " + GameOption.factor;
     },
 
     // used by Factor min and max buttons
     boundLevel: function() {
-        if (option.level > 15) {
-            option.level = 1;
+        if (GameOption.level > 15) {
+            GameOption.level = 1;
         }
-        if (option.level < 1) {
-            option.level = 15;
+        if (GameOption.level < 1) {
+            GameOption.level = 15;
         }
 
     },
 
     actionOnClickLevel: function (config) {
-        option.level += config.target.direction;
+        GameOption.level += config.target.direction;
         config.ctx.boundLevel();
-        config.ctx.levelText.text = option.level;
+        config.ctx.levelText.text = GameOption.level;
 
     },
 
     actionOnClickTg: function (config) {
-        option.timeGoal += config.target.direction;
-        if (option.timeGoal > 5) {
-            option.timeGoal = 1;
+        GameOption.timeGoal += config.target.direction;
+        if (GameOption.timeGoal > 5) {
+            GameOption.timeGoal = 1;
         }
-        if (option.timeGoal < 1) {
-            option.timeGoal = 5;
+        if (GameOption.timeGoal < 1) {
+            GameOption.timeGoal = 5;
         }
-        config.ctx.tgText.text = option.timeGoalArray[option.timeGoal];
+        config.ctx.tgText.text = GameOption.timeGoalArray[GameOption.timeGoal];
     },
 
 
@@ -738,11 +527,11 @@ var MainMenu = new Phaser.Class({
     },
 
     nextScene: function () {
-        option.buzzer = option.timeGoalValues[option.timeGoal] * 1000;
-        option.id = option.playerIdArray[option.playuerId] + '.';
-        //option.level = option.maxLevel; // x 
-        //option.min = option.minFactor; // y
-        option.questionType = option.arithmeticType;
+        GameOption.buzzer = GameOption.timeGoalValues[GameOption.timeGoal] * 1000;
+        GameOption.id = GameOption.playerIdArray[GameOption.playuerId] + '.';
+        //GameOption.level = GameOption.maxLevel; // x 
+        //GameOption.min = GameOption.minFactor; // y
+        GameOption.questionType = GameOption.arithmeticType;
         this.scene.start('Calc');
     },
 });

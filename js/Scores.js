@@ -17,18 +17,16 @@ var Scores = new Phaser.Class({
 
     init: function () {
 
-        this.myFont = 'VenusRising';
-
         // copy level array into history array
         this.copyToHistory();
-        this.typeId = option.getTypeId(); // current typeId
+        this.typeId = GameOption.getTypeId(); // current typeId
         game.ctx = this;
 
     },
 
     copyToHistory: function () {
-        for (let key of Object.keys(Povin.scoreArr)) {
-            Povin.historyArr[key] =  Povin.scoreArr[key]; 
+        for (let key of Object.keys(GameOption.scoreArr)) {
+            Povin.historyArr[key] =  GameOption.scoreArr[key]; 
         }    
     },
 
@@ -43,25 +41,25 @@ var Scores = new Phaser.Class({
         });
 
          // background Tile
-         this.backTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(1), style.bodyBackgroundH).setOrigin(.5, 0);
+         this.backTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(1), GameStyle.bodyBackgroundH).setOrigin(.5, 0);
          Povin.place(this.backTile, 0.5, 0);
 
          // header Tile
-         this.headerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), style.headerBackgroundH).setOrigin(.5, 0);
+         this.headerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), GameStyle.headerBackgroundH).setOrigin(.5, 0);
          Povin.place(this.headerTile, 0.5, 0);
 
          // question Tile
-         this.questionTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.75), style.resultBackgroundH).setOrigin(.5, 0);
+         this.questionTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.75), GameStyle.resultBackgroundH).setOrigin(.5, 0);
          Povin.place(this.questionTile, 0.5, 0.24);
 
          // footer Tile
-         this.footerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), style.footerBackgroundH).setOrigin(.5, 0);
+         this.footerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), GameStyle.footerBackgroundH).setOrigin(.5, 0);
          Povin.place(this.footerTile, 0.5, 0.85);
 
          // Title Heading
          this.titleHeading = this.add.text(0, 0, 'Povin Super Calc', {
-             font: style.headerFont,
-             fill: style.headerText,
+             font: GameStyle.headerFont,
+             fill: GameStyle.headerText,
              align: 'center'
          }).setScale(deviceScale);
          this.titleHeading.setOrigin(0.5, 0.5);
@@ -70,7 +68,7 @@ var Scores = new Phaser.Class({
          // Speaker button to start/stop the background music
          this.buttonSpeaker = new SpeakerButton({
              scene: this,
-             style: style.headerGraphicH,
+             style: GameStyle.headerGraphicH,
          });
          this.buttonSpeaker.on('pointerdown', function () {
              Povin.actionOnClickSpeaker({
@@ -84,7 +82,7 @@ var Scores = new Phaser.Class({
          // Home button to return to the main menu
          this.buttonHome = new MenuButton({
              scene: this,
-             style: style.headerGraphicH,
+             style: GameStyle.headerGraphicH,
          });
          this.buttonHome.on('pointerdown', function () {
              Povin.actionOnClickHome({
@@ -101,9 +99,9 @@ var Scores = new Phaser.Class({
              width: Povin.placeX(.40),
              height: Povin.placeY(.08),
              text: 'Go',
-             textFont: style.footerFont,
-             textStyle: style.footerText,
-             backgroundColor: style.footerTextBackgroundH
+             textFont: GameStyle.footerFont,
+             textStyle: GameStyle.footerText,
+             backgroundColor: GameStyle.footerTextBackgroundH
          });
          this.buttonGo.on('pointerdown', function () {
              game.ctx.actionOnClickGo({
@@ -121,9 +119,9 @@ var Scores = new Phaser.Class({
          this.input.on('gameobjectout', this.onObjectOut);
 
         // TestType Heading
-        this.aString = option.getTypeSt();
+        this.aString = GameOption.getTypeSt();
         this.aText = this.add.text(0, 0, this.aString, {
-            font: '20px ' + this.myFont,
+            font: '20px ' + GameStyle.scoreFont,
             fill: '#ad0000',
             align: 'center'
         }).setScale(deviceScale);
@@ -133,7 +131,7 @@ var Scores = new Phaser.Class({
         // Ar Plus Button
          this.buttonArPlus = new RoundButton({
              scene: this,
-             style: style.bodyGraphicH,
+             style: GameStyle.bodyGraphicH,
              type: 'plus'
          });
         this.buttonArPlus.on('pointerdown', function () {
@@ -148,7 +146,7 @@ var Scores = new Phaser.Class({
         // ArMinus
         this.buttonArMinus = new RoundButton({
             scene: this,
-            style: style.bodyGraphicH,
+            style: GameStyle.bodyGraphicH,
             type: 'minus'
         });
         this.buttonArMinus.on('pointerdown', function () {
@@ -163,7 +161,7 @@ var Scores = new Phaser.Class({
         // History Text, vertical and horiz numbers across chart
         this.hString = '';
         this.hText = this.add.text(0, 0, this.hString, {
-            font: '14px ' + this.myFont,
+            font: '14px ' + GameStyle.scoreFont,
             fill: '#ebebeb',
             align: 'center'
         }).setScale(deviceScale);
@@ -171,7 +169,7 @@ var Scores = new Phaser.Class({
         Povin.place(this.hText, 0.15, 0.25);
 
         this.hyText = this.add.text(0, 0, '', {
-            font: '14px ' + this.myFont,
+            font: '14px ' + GameStyle.scoreFont,
             fill: '#ebebeb',
             align: 'center'
         }).setScale(deviceScale);
@@ -179,7 +177,7 @@ var Scores = new Phaser.Class({
         Povin.place(this.hyText, 0.1, 0.28);
 
         this.hxText = this.add.text(0, 0, '', {
-            font: '14px ' + this.myFont,
+            font: '14px ' + GameStyle.scoreFont,
             fill: '#ebebeb',
             align: 'center'
         }).setScale(deviceScale);
@@ -259,7 +257,7 @@ var Scores = new Phaser.Class({
         if (config.ctx.typeId < 1) {
             config.ctx.typeId = 4;
         }
-        config.ctx.aText.text = option.getTypeSt(config.ctx.typeId);
+        config.ctx.aText.text = GameOption.getTypeSt(config.ctx.typeId);
 
         config.ctx.displayChart();
         config.ctx.displayHistory();
@@ -287,26 +285,26 @@ var Scores = new Phaser.Class({
 
         // FACTORS text down the left side
         this.add.text(Povin.placeX(.05), Povin.placeY(.42),'F\nA\nC\nT\nO\nR\nS', { 
-            font: '12px ' + this.myFont, 
+            font: '12px ' + GameStyle.scoreFont, 
             fill: '#ebebeb', 
             align: 'center' 
         }).setScale(deviceScale);
         // Legend text across the bottom
         var m = this.add.text(Povin.placeX(.5), Povin.placeY(.79),'Met acuracy and speed requirements', { 
-            font: '12px ' + this.myFont, 
+            font: '12px ' + GameStyle.scoreFont, 
             fill: '#005300', 
             align: 'center' 
         }).setScale(deviceScale);
         m.setOrigin(0.5, 0.5);
         var p = this.add.text(Povin.placeX(.5), Povin.placeY(.81),'Need to keep practicing', { 
-            font: '12px ' + this.myFont, 
+            font: '12px ' + GameStyle.scoreFont, 
             fill: '#ad0000', 
             align: 'center'
             }).setScale(deviceScale);
         p.setOrigin(0.5, 0.5);
         this.qString = 'Avg time per problem: ';
         this.q = this.add.text(Povin.placeX(.5), Povin.placeY(.83), this.qString, {
-            font: '12px ' + this.myFont,
+            font: '12px ' + GameStyle.scoreFont,
             fill: '#ebebeb',
             align: 'center'
         }).setScale(deviceScale);
@@ -321,7 +319,7 @@ var Scores = new Phaser.Class({
             // show the vertical numbers down left side of grid
             this.hText[i] = {
                 num: this.add.text(0, 0, '', {
-                    font: '12px ' + this.myFont,
+                    font: '12px ' + GameStyle.scoreFont,
                     fill: '#ebebeb',
                     align: 'center'
                 }).setScale(deviceScale)
@@ -334,7 +332,7 @@ var Scores = new Phaser.Class({
             // show the horiz numbers across top of grid        
             this.hText[i + 16] = {
                 num: this.add.text(0, 0, '', {
-                    font: '12px ' + this.myFont,
+                    font: '12px ' + GameStyle.scoreFont,
                     fill: '#ebebeb',
                     align: 'center'
                 }).setScale(deviceScale)
@@ -381,8 +379,8 @@ var Scores = new Phaser.Class({
         var x;
         var y;
         var key;
-        var playerId = option.getPlayerId()+'.';
-        var type = ' '+option.getTypeSym(this.typeId)+' ';
+        var playerId = GameOption.getPlayerId()+'.';
+        var type = ' '+GameOption.getTypeSym(this.typeId)+' ';
         var color = 1;
         var count = 0;
         var avg = 0;
@@ -424,7 +422,7 @@ var Scores = new Phaser.Class({
     render2: function () {
         var debug = this.game.debug;
         debug.text('height ' + game.world.height, 10, 120);
-        debug.text('gameLevel ' + Povin.gameLevel, 10, 140);
+        debug.text('gameLevel ' + GameOption.gameLevel, 10, 140);
         debug.text('Povin ' + Povin, 10, 160);
 
         debug.text("Phasers " + Phaser.VERSION + " " + ['AUTO', 'CANVAS', 'WEBGL', 'HEADLESS', 'WEBGL_MULTI'][this.game.renderType], 10, 540, 'white', debug.font);
@@ -434,8 +432,8 @@ var Scores = new Phaser.Class({
     nextScene: function () {
 
         // reset and ready to play again
-        Povin.scoreArr = {};
-        Povin.next = 1; // add one to the next level number
+        GameOption.scoreArr = {};
+        GameOption.next = 1; // add one to the next level number
     
         this.scene.start('MainMenu', true, false);
     },
