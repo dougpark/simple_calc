@@ -8,28 +8,21 @@
 **************************************************************************************/
 "use strict"
 
+class Calc extends Phaser.Scene {
+    constructor() {
+            super("Calc");
+    }
 
-    
-var Calc = new Phaser.Class({
-    Extends: Phaser.Scene,
-
-    initialize: function calc() {
-        Phaser.Scene.call(this, {
-            key: "Calc"
-        });
-    },
-
-    init: function() {  
+    init() {  
  
         game.ctx = this;
-    },
+    }
 
-    preload: function() {
+    preload() {
         //this.time.advancedTiming = true;
-    },
+    }
 
-    create: function() 
-    {
+    create() {
 
         // keyboard
         this.createKeyboard();
@@ -53,23 +46,23 @@ var Calc = new Phaser.Class({
         this.createInvaders();
         
     
-    }, // end create
+    } // end create
 
     
-    update: function() {
+    update() {
   
         
-    }, // end update
+    } // end update
 
  
-    nextScene: function() {
+    nextScene() {
         this.scene.start('Scores', true, false); // go to Scores
-    },
+    }
 
     //
     // for all interactive buttons
     //
-    onObjectDown: function (pointer, target) {
+    onObjectDown(pointer, target) {
         game.ctx.tweens.add({
             targets: target,
             scaleX: (target.normScale ? target.normScale * .8 : .8),
@@ -85,8 +78,8 @@ var Calc = new Phaser.Class({
             delay: 100,
             duration: 100
         });
-    },
-    onObjectUp: function (pointer, target) {
+    }
+    onObjectUp (pointer, target) {
         game.ctx.tweens.add({
             targets: target,
             scaleX: (target.normScale ? target.normScale : 1),
@@ -94,8 +87,8 @@ var Calc = new Phaser.Class({
             ease: 'Sine.easeInOut',
             duration: 100
         });
-    },
-    onObjectOver: function (pointer, target) {
+    }
+    onObjectOver (pointer, target) {
         // game.ctx.tweens.add({
         //     targets: target,
         //     scaleX: 1.1,
@@ -104,8 +97,8 @@ var Calc = new Phaser.Class({
         //     duration: 100
         // });
         ///target.setTint(0xeb0000);
-    },
-    onObjectOut: function (pointer, target) {
+    }
+    onObjectOut (pointer, target) {
         game.ctx.tweens.add({
             targets: target,
             scaleX: (target.normScale ? target.normScale : 1),
@@ -114,9 +107,9 @@ var Calc = new Phaser.Class({
             duration: 100
         });
         /// target.setTint(0xffffff);
-    },
+    }
 
-    createKeyboard: function() {
+    createKeyboard() {
         this.input.keyboard.on('keydown_A', function (event) {
             game.ctx.actionOnClick1({
                 ctx: game.ctx
@@ -137,15 +130,15 @@ var Calc = new Phaser.Class({
                 ctx: game.ctx
             });
         });
-    },
+    }
 
-    createAudio: function() {
+    createAudio() {
         this.perfectSfx = this.sound.add('perfectSfx');
         this.wrongSfx = this.sound.add('wrongSfx');
         this.lateSfx = this.sound.add('lateSfx');
-    },
+    }
 
-    createTiles: function () {
+    createTiles () {
         this.backTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(1), GameStyle.bodyBackgroundH).setOrigin(.5, 0);
         Povin.place(this.backTile, 0.5, 0);
         // header Tile
@@ -157,9 +150,9 @@ var Calc = new Phaser.Class({
         // footer Tile
         this.footerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), GameStyle.footerBackgroundH).setOrigin(.5, 0);
         Povin.place(this.footerTile, 0.5, 0.85);
-    },
+    }
 
-    createHeader: function () {
+    createHeader () {
         this.titleHeading = this.add.text(0, 0, 'Povin Super Calc', {
             font: GameStyle.headerFont,
             fill: GameStyle.headerText,
@@ -193,16 +186,16 @@ var Calc = new Phaser.Class({
         });
         this.buttonHome.nextScene = 'MainMenu';
         Povin.place(this.buttonHome, 0.07, 0.055);
-    },
+    }
 
-    createTouch: function () {
+    createTouch () {
         this.input.on('gameobjectdown', this.onObjectDown);
         //this.input.on('gameobjectup', this.onObjectUp);
         this.input.on('gameobjectover', this.onObjectOver);
         this.input.on('gameobjectout', this.onObjectOut);
-    },
+    }
     
-    createInvaders: function () {
+    createInvaders () {
         var config = {
             key: 'fly',
             frames: this.anims.generateFrameNumbers('invader', {
@@ -229,9 +222,9 @@ var Calc = new Phaser.Class({
             repeat: -1,
             duration: GameOption.buzzer
         });
-    },
+    }
 
-    createGoButton: function () {
+    createGoButton () {
         this.buttonGo = new TextButton({
             scene: this,
             width: Povin.placeX(.40),
@@ -252,7 +245,7 @@ var Calc = new Phaser.Class({
         this.buttonGo.inputEnabled = true;
     }
   
-});
+};
 
 
 

@@ -7,20 +7,18 @@
 **************************************************************************************/
 "use strict";
 
-var CheckOrientation = new Phaser.Class({
-            Extends: Phaser.Scene,
-            initialize: function checkOrientation() {
-                Phaser.Scene.call(this, {
-                    key: "CheckOrientation"
-                });
-            },
-    create: function () {
-    },
+class CheckOrientation extends Phaser.Scene {
+    constructor() {
+        super("CheckOrientation");
+    }
 
-    update: function () {
+    create() {
+    }
+
+    update () {
         if (GameOptions.orientated) {
             this.scene.start('Logo');
         }
     }
 
-});
+};

@@ -14,9 +14,9 @@ var Povin = {
     // Povin Properties 
     game: null, // must initialize in game init method: Povin.game = game; 
     SFXStatus: true,
-    scoreArr: {},  // storge obj for all levels and keys
-    historyArr: {}, // store history of all level and all games
-    next: 0,
+    //scoreArr: {},  // storge obj for all levels and keys
+    //historyArr: {}, // store history of all level and all games
+    //next: 0,
 
     // Povin Methods 
     highScore: function () {

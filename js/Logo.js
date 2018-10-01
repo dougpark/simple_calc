@@ -7,23 +7,20 @@
 **************************************************************************************/
 "use strict";
 
-var Logo = new Phaser.Class({
-            Extends: Phaser.Scene,
-            initialize: function logo() {
-                Phaser.Scene.call(this, {
-                    key: "Logo"
-                });
-            },
+class Logo extends Phaser.Scene {
+        constructor() {
+            super("Logo");
+        }
 
-    create: function () {
+    create() {
         this.logo = this.add.sprite(10, 5, "logo").setOrigin(0.5, 0.5);
        
         this.logo.setScale(0.5 * deviceScale);
         //this.logo.anchor.setTo(0.5, 0.5);
         Povin.place(this.logo, 0.5, .5)  
-    },
+    }
 
-    update: function () {
+    update() {
         //this.time.events.add(1000, this.nextScene, this);   
         var timedEvent = this.time.addEvent({
             delay: 250,
@@ -31,10 +28,10 @@ var Logo = new Phaser.Class({
             callbackScope: this
         });
  
-    },
+    }
 
-    nextScene: function() {
+    nextScene() {
         this.scene.start('Calc');
     }
 
-});
+};

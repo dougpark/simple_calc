@@ -73,16 +73,13 @@ window.onload = function () {
     window.addEventListener("resize", resize, false);
 }
 
-//var game = new Phaser.Game(getWidth(), getHeight(), Phaser.AUTO, 'game');
-var Boot = new Phaser.Class({
-    Extends: Phaser.Scene,
-    initialize: function boot() {
-                Phaser.Scene.call(this, {
-                    key: "Boot"
-                });
-            },
+class Boot extends Phaser.Scene {
+        constructor() {
+            super("Boot");
+        }
 
-    init: function () {
+
+    init () {
         this.cameras.main.setRoundPixels(true);
 
         // initialize the Povin object
@@ -115,9 +112,9 @@ var Boot = new Phaser.Class({
             //this.scale.setScreenSize(true);
         }
 
-    },
+    }
 
-    preload: function () {
+    preload () {
         // Logo Scene
         this.load.image('logo', 'assets/images/povinlogo.png');
 
@@ -162,34 +159,34 @@ var Boot = new Phaser.Class({
         this.load.audio('lateSfx', 'assets/audio/ELECTRIC Power Down 02.wav'); 
 
         // game.load.image('loading', 'assets/images/loading.png');
-    },
+    }
 
-    create: function () {
+    create () {
         this.nextScene();
-    },
+    }
 
-    nextScene: function() {
+    nextScene() {
         this.scene.start("CheckOrientation");
-    },
+    }
 
-    gameResized: function (width, height) {
+    gameResized(width, height) {
         console.log('resize event '+width + ' x '+height);
 
         //  This could be handy if you need to do any extra processing if the game resizes.
         //  A resize could happen if for example swapping orientation on a device.
 
-    },
+    }
 
-    enterIncorrectOrientation: function () {
+    enterIncorrectOrientation () {
 
         BasicGame.orientated = false;
         game.paused = true;
 
         document.getElementById('orientation').style.display = 'block';
 
-    },
+    }
 
-    leaveIncorrectOrientation: function () {
+    leaveIncorrectOrientation () {
 
         BasicGame.orientated = true;
 
@@ -202,7 +199,7 @@ var Boot = new Phaser.Class({
 
     }
 
-});
+};
 
 
 function resize() {
