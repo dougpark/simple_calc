@@ -423,7 +423,7 @@ class Calc extends Phaser.Scene {
         this.tokens = ['0'];
 
         // this.cmdVal = '';
-        //this.decVal = 0;
+        // this.decVal = 0;
         // this.hexVal = '0';
         // this.octVal = '0';
         // this.binVal = '0';
