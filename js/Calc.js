@@ -20,10 +20,10 @@ class Calc extends Phaser.Scene {
         this.tokens = [];
 
         this.hexCSSVal = '';
-        this.memVal = '';
-        this.binVal = '';
-        this.octVal = '';
-        this.hexVal = '';
+        this.memVal = 0;
+        this.binVal = 0;
+        this.octVal = 0;
+        this.hexVal = 0;
         this.decVal = 0;
 
         this.hexCSSValText = '';
@@ -121,7 +121,7 @@ class Calc extends Phaser.Scene {
             align: 'center'
         }).setScale(deviceScale * ds);
         this.memHeader.setOrigin(0, 0.5);
-        this.memText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.1), '0000000000', {
+        this.memText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.1), '0', {
             font: GameStyle.answerFont,
             fill: GameStyle.answerText,
             align: 'center'
@@ -180,24 +180,18 @@ class Calc extends Phaser.Scene {
           }).setScale(deviceScale * ds);
           this.decText.setOrigin(1, 0.5);
         
-         this.cmdHeader = this.add.text(GameOption.placeX(.02), GameOption.placeY(.95), GameOption.mode, {
+         this.cmdHeader = this.add.text(GameOption.placeX(.5), GameOption.placeY(.05), GameOption.mode, {
              font: GameStyle.answerFont,
              fill: GameStyle.answerText,
              align: 'center'
          }).setScale(deviceScale * ds);
-         this.cmdHeader.setOrigin(0 , 0.5);
+         this.cmdHeader.setOrigin(0.5 , 0.5);
         this.cmdText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.95), '0', {
             font: GameStyle.answerFont,
             fill: GameStyle.answerText,
             align: 'center'
         }).setScale(deviceScale * ds);
         this.cmdText.setOrigin(1, 0.5);
-
-
-
-        
-       
-
     }
 
     createButtons() {
@@ -205,6 +199,7 @@ class Calc extends Phaser.Scene {
         //{scene, width, height, text, type, textFont, textStyle, 0xbackgroundColor}
         this.buttons = GameOption.createButtons();
 
+        // custome position logic
         var dWidth = 8;
         var dX = game.config.width / dWidth;
         var dY = dX;
@@ -234,7 +229,6 @@ class Calc extends Phaser.Scene {
             } else {
                 x += dX;
             }
-            //Povin.place(this.button, x, y);
             this.button.x = x;
             this.button.y = y;  
 
@@ -262,68 +256,6 @@ class Calc extends Phaser.Scene {
 
     }
 
-    processEqual() {
-
-         try {
-             //this.decText.text = eval(this.cmdStr).toString(10);
-             var v2 = eval(this.cmdStr).toString(10);
-             var v3 = 0;
-            //  var c = 1;
-
-            //  if (v2.length > 30) {
-            //     for (var i = v2.length-1; i > -1; i--) {
-            //         v3 = v2.charAt(i) + v3;
-            //         if (c%3 == 0) {
-            //             v3 = ',' + v3;
-            //         }
-            //         c++;
-            //     }
-            //     if (v3.charAt(0) == ',') {
-            //         v3 = v3.slice(1);
-            //     }
-            // } else {
-                 v3 = Number(v2);
-            // }
-            this.decText.text = v3.toLocaleString('en', {
-                maximumSignificantDigits: 21
-            });
-         } catch {}
-
-        try {
-            var v2 = eval(this.cmdStr).toString(16);
-            var V = ('0000000000000000' + v2).slice(-16);
-            this.hexText.text = V.slice(0, 4) + ' ' + V.slice(4, 8) + ' ' +
-                V.slice(8, 12) + ' ' + V.slice(12);
-             
-         } catch {}
-
-         try {
-             
-             var v2 = eval(this.cmdStr).toString(8);
-             var V = ('                ' + v2).slice(-16);
-             this.octText.text = V.slice(0, 4) + ' ' + V.slice(4, 8) + ' ' +
-                 V.slice(8, 12) + ' ' + V.slice(12);
-         } catch {}
-
-         try {
-              var v3 = eval(this.cmdStr).toString(10);
-              if (v3<65536) {
-                var v2 = eval(this.cmdStr).toString(2);
-                var V = ('0000000000000000' + v2).slice(-16);
-                this.binText.text = V.slice(0,4) + ' ' + V.slice(4,8)+ ' ' + 
-                V.slice(8,12) +' ' + V.slice(12);
-              } else {
-                  this.binText.text = 'overflow';
-              }
-
-         } catch {}
-
-         try {
-             this.hexCSS.fillColor = '0x' + eval(this.cmdStr).toString(16);
-         } catch {}
-
-
-    }
 
     // eval cmdStr and then convert to other base values
     processEval() {
@@ -335,11 +267,11 @@ class Calc extends Phaser.Scene {
         this.processCSS();
 
         // update the display
-        this.processText();
+        this.updateDisplayText();
     }
 
     // update the onscreen text 
-    processText() {
+    updateDisplayText() {
 
         this.decText.text = this.decValText;
         this.hexText.text = this.hexValText;
@@ -364,15 +296,36 @@ class Calc extends Phaser.Scene {
         var v3 = this.decVal.toString(2);
         this.binVAl = v3;
 
+        this.binValText = this.getBinText(this.decVal);
+       
+    }
+
+    getBinText(val) {
         // for display
-        if (this.decVal>= 0 && this.decVal < 65536) {
-            var v2 = this.decVal.toString(2);
-            var V = ('0000000000000000' + v2).slice(-16);
-            this.binValText = V.slice(0, 4) + ' ' + V.slice(4, 8) + ' ' +
+        var r = '';
+        if (val >= 0 && val < 65536) {
+            var v2 = val.toString(2);
+            var V = ('                ' + v2).slice(-16);
+            r = V.slice(0, 4) + ' ' + V.slice(4, 8) + ' ' +
                 V.slice(8, 12) + ' ' + V.slice(12);
         } else {
-            this.binValText = 'overflow';
+            r = 'overflow';
         }
+
+        return r;
+    }
+
+    getBinVal(val) {
+         var r = '';
+         if (val >= 0 && val < 65536) {
+             var v2 = val.toString(2);
+             r = v2;
+         } else {
+             r = 'overflow';
+         }
+
+         return r;
+
     }
 
     processOct() {
@@ -381,24 +334,59 @@ class Calc extends Phaser.Scene {
         var v2 = this.decVal.toString(8);
         this.octVal = v2;
 
+        this.octValText = this.getOctText(this.decVal);
+    }
+
+    getOctText(val) {
         // for display
+        var r = '';
+        var v2 = val.toString(8);
         var V = ('                ' + v2).slice(-16);
-        this.octValText = V.slice(0, 4) + ' ' + V.slice(4, 8) + ' ' +
+        r = V.slice(0, 4) + ' ' + V.slice(4, 8) + ' ' +
             V.slice(8, 12) + ' ' + V.slice(12);
+
+        return r;
+    }
+
+    getOctVal(val) {
+        // for display
+        var r = '';
+        var v2 = val.toString(8);
+        r = v2;
+
+        return r;
     }
 
     processHex() {
 
         // convert to hex
         this.hexVal = '';
-        var v2 = this.decVal.toString(16);
+        var v2 = this.decVal.toString(16).toUpperCase();
         this.hexVal = v2;
 
+        this.hexValText = this.getHexText(this.decVal);
+    }
+
+    getHexText(val) {
+
         // for display
-        var V = ('0000000000000000' + v2).slice(-16);
-        this.hexValText = V.slice(0, 4) + ' ' + V.slice(4, 8) + ' ' +
+        var r = '';
+        var v2 = val.toString(16).toUpperCase();
+        var V = ('                ' + v2).slice(-16);
+        r = V.slice(0, 4) + ' ' + V.slice(4, 8) + ' ' +
             V.slice(8, 12) + ' ' + V.slice(12);
 
+        return r;
+    }
+
+    getHexVal(val) {
+
+        // for display
+        var r = '';
+        var v2 = val.toString(16).toUpperCase();
+        r = v2;
+
+        return r;
     }
 
     processDec() {
@@ -408,46 +396,59 @@ class Calc extends Phaser.Scene {
         try {
          v2 = eval(this.cmdStr).toString(10);
          this.decVal = Number(v2);
-       
+         this.decValText = this.decVal;
+           
+         } catch(err) {}
 
-            // for display
-            var v3 = Number(v2);
-            this.decValText = v3.toLocaleString('en', {
-                maximumSignificantDigits: 21
-            });
-         } catch {}
+         if (this.cmdStr == '') {
+             this.decVal = 0;
+             this.decValText = '0';
+         }
+    }
+
+    getDecText(val) {
+        // for display
+        var r = '';
+        r = val.toLocaleString('en', {
+            maximumSignificantDigits: 21
+        });
+
+        return r;
+
+    }
+
+    getDecVal(val) {
+        // for display
+        var r = '';
+        r = val;
+
+        return r;
+
     }
 
     processClear() {
         // clear this.tokens array;
-        this.tokens = ['0'];
-
-        // this.cmdVal = '';
-        // this.decVal = 0;
-        // this.hexVal = '0';
-        // this.octVal = '0';
-        // this.binVal = '0';
-        // this.hexCSSVal = GameStyle.answerCSSH;
+        this.tokens = [{key:'', val:''}];
 
         // build the cmdStr based on the token array
         this.buildCmdStr(this.tokens);
         
     }
 
-    getModeAnswer() {
+    getModeVal(val) {
         switch (GameOption.mode) {
 
             case 'Dec':
-                return this.decText.text;
+                return this.getDecVal(val);
             break;
             case 'Hex':
-                return this.hexText.text;       
+                return this.getHexVal(val);
             break;
             case 'Oct':
-                return this.octText.text;
+                return this.getOctVal(val);
             break;
             case 'Bin':
-                return this.binText.text;
+                return this.getBinVal(val);
             break;
             case 'RGB':
                 //return this.rgbText.text;
@@ -459,18 +460,53 @@ class Calc extends Phaser.Scene {
         }
     }
 
+    getModeText(val) {
+        switch (GameOption.mode) {
+
+            case 'Dec':
+                return this.getDecText(val);
+                break;
+            case 'Hex':
+                return this.getHexText(val);
+                break;
+            case 'Oct':
+                return this.getOctText(val);
+                break;
+            case 'Bin':
+                return this.getBinText(val);
+                break;
+            case 'RGB':
+                //return this.rgbText.text;
+                return 0;
+                break;
+            default:
+
+                break;
+        }
+    }
+
+   
+
     getAnswer() {
-        this.processEval();
-        var ans = this.getModeAnswer();
+        //this.processEval();
+        var ans = this.getModeVal(this.decVal);
         this.tokens = [];
-        this.tokens.push(ans);
+        if (ans != 0) {
+            this.tokens.push({key: 'pVal', val:ans});
+        }
         this.buildCmdStr(this.tokens);
     }
+
     getMemAnswer() {
-        var ans = this.memText.text;
+        var mem = this.getModeVal(this.memVal);
         this.tokens = [];
-        this.tokens.push(ans);
+        this.tokens.push({key:'pVal', val:mem});
         this.buildCmdStr(this.tokens);
+    }
+
+    updateMemText() {
+        this.memValText = this.getModeText(this.memVal);
+        this.memText.text = this.memValText;
     }
 
     processCmd(cmd) {
@@ -490,16 +526,16 @@ class Calc extends Phaser.Scene {
                 this.buildCmdStr(this.tokens);
              break;
              case 'M+':
-                this.memText.text = Number(this.memText.text) + Number(this.getModeAnswer());
-
+                this.memVal = this.memVal + this.decVal;
+                this.updateMemText();
              break;
              case 'M-':
-              this.memText.text = Number(this.memText.text) - Number(this.getModeAnswer());
-
+                this.memVal = this.memVal - this.decVal;
+                this.updateMemText();
              break;
              case 'MC':
-                this.memText.text = '';
-
+                this.memVal = 0;
+                this.updateMemText();
              break;
              case 'MR':
                 this.getMemAnswer();
@@ -508,26 +544,35 @@ class Calc extends Phaser.Scene {
                 GameOption.mode = 'RGB';
                 this.cmdHeader.text = GameOption.mode;
                 this.getAnswer();
+                this.updateMemText();
             break;
              case 'Bin':
                 GameOption.mode = 'Bin';
                 this.cmdHeader.text = GameOption.mode;
                 this.getAnswer();
+                this.updateMemText();
+
              break;
              case 'Oct':
                 GameOption.mode = 'Oct';
                 this.cmdHeader.text = GameOption.mode;
                 this.getAnswer();
+                this.updateMemText();
+
              break;
              case 'Hex':
                 GameOption.mode = 'Hex';
                 this.cmdHeader.text = GameOption.mode;
                 this.getAnswer();
+                this.updateMemText();
+
              break;
              case 'Dec':
                 GameOption.mode = 'Dec';
                 this.cmdHeader.text = GameOption.mode;
                 this.getAnswer();
+                this.updateMemText();
+
              break;
             default: 
                 
@@ -541,29 +586,93 @@ class Calc extends Phaser.Scene {
     buildCmdStr(tokens) {
 
         this.cmdStr = '';
+        this.modeCmdStr = '';
+        var t = '';
         
-
         // loop through tokens array and build cmdStr
         for(var token of tokens) {
             // convert token to math function here
             // var expandedToken = this.expandToken(token);
 
-            var expandedToken = token; // remove when expand is implemented
-            this.cmdStr += expandedToken;
+            if (token.key == 'pVal') {
+                t = t + token.val;
+            } else if (token.key == 'op') {
+                
+                this.processT(t);
+                this.cmdStr += token.val;
+                this.modeCmdStr += token.val
+                t = '';
+            }
         }
 
-        // update the display with current cmStr
-         this.cmdText.text = this.cmdStr;
+        // catch the last pVal
+        if (t != '' ) {
+            this.processT(t);
+        }
+
+        // console.log(tokens);
+        // console.log('cmdStr= '+this.cmdStr);
+        // console.log('modeCmdStr= '+this.modeCmdStr);
+        // // update the display with current modeCmdStr
+         this.cmdText.text = this.modeCmdStr;
 
         // Process Equal
         this.processEval();
+    }
+
+    processT(t) {
+        var modeToken = '';
+        // for calculation - calculate in decimal
+        var expandedToken = t;
+        //if (!isNaN(this.getDecVal(expandedToken))) {
+            expandedToken = this.getDecVal(expandedToken);
+        //}
+
+        this.cmdStr += expandedToken;
+
+
+        // for display - display in current base mode
+        modeToken = expandedToken;
+        if (!isNaN(expandedToken)) {
+            modeToken = this.getModeVal(expandedToken);
+        }
+        this.modeCmdStr += modeToken;
+
+    }
+
+    getDecVal(val) {
+
+      switch (GameOption.mode) {
+
+          case 'Dec':
+              return Number(val);
+              break;
+          case 'Hex':
+              return Number(parseInt(val, 16));
+              break;
+          case 'Oct':
+              return Number(parseInt(val, 8));
+              break;
+          case 'Bin':
+              return Number(parseInt(val, 2));
+              break;
+          case 'RGB':
+              //return this.rgbText.text;
+              return Number(0);
+              break;
+          default:
+
+              break;
+      }
+
     }
 
     processOp(target) {
 
         if (target.op == '+/-') {
             // remove the last token from array
-            var v = this.tokens.pop();
+            var v1 = this.tokens.pop();
+            var v = v1.val;
 
             // check if token begins with '-'
             if (v.charAt(0) === '-') {
@@ -576,11 +685,11 @@ class Calc extends Phaser.Scene {
                 
             }
 
-            this.tokens.push(v);
+            this.tokens.push({key: 'pVal', val:v});
 
         }
         else {
-            this.tokens.push(target.op);
+            this.tokens.push({key: 'op', val:target.op});
         }
 
     }
@@ -589,7 +698,7 @@ class Calc extends Phaser.Scene {
 
         if (target.pVal) {
 
-            this.tokens.push(target.pVal);
+            this.tokens.push({key: 'pVal', val:target.pVal});
 
 
         } else if (target.op) {
