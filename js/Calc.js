@@ -93,8 +93,9 @@ class Calc extends Phaser.Scene {
     createAnswerText() {
 
         var ds = .75;
+        var fontSize = 16*deviceScale;
 
-        GameOption.minY = Povin.placeY(.1);
+        GameOption.minY = Povin.placeY(.082);
         GameOption.norY = GameOption.maxY - GameOption.minY;
         GameOption.scaleY = function (percent, offset = 0) {
             var y = GameOption.norY * percent;
@@ -116,81 +117,81 @@ class Calc extends Phaser.Scene {
         
 
         this.memHeader = this.add.text(GameOption.placeX(.02), GameOption.placeY(.1), 'Mem:', {
-            font: GameStyle.answerFont,
+            font: fontSize+GameStyle.answerFont,
             fill: GameStyle.answerText,
             align: 'center'
-        }).setScale(deviceScale * ds);
+        });
         this.memHeader.setOrigin(0, 0.5);
         this.memText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.1), '0', {
-            font: GameStyle.answerFont,
+            font: fontSize+GameStyle.answerFont,
             fill: GameStyle.answerText,
             align: 'center'
-        }).setScale(deviceScale * ds);
+        });
         this.memText.setOrigin(1, 0.5);
 
         this.binHeader = this.add.text(GameOption.placeX(.02), GameOption.placeY(.55), 'Bin:', {
-            font: GameStyle.answerFont,
+            font: fontSize+GameStyle.answerFont,
             fill: GameStyle.answerText,
             align: 'center'
-        }).setScale(deviceScale * ds);
+        });
         this.binHeader.setOrigin(0, 0.5);
         this.binText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.55), '0', {
-            font: GameStyle.answerFont,
+            font: fontSize+GameStyle.answerFont,
             fill: GameStyle.answerText,
             align: 'center'
-        }).setScale(deviceScale * ds);
+        });
         this.binText.setOrigin(1, 0.5);
 
         this.octHeader = this.add.text(GameOption.placeX(.02), GameOption.placeY(.65), 'Oct:', {
-            font: GameStyle.answerFont,
+            font: fontSize+GameStyle.answerFont,
             fill: GameStyle.answerText,
             align: 'center'
-        }).setScale(deviceScale * ds);
+        });
         this.octHeader.setOrigin(0, 0.5);
         this.octText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.65), '0', {
-            font: GameStyle.answerFont,
+            font: fontSize+GameStyle.answerFont,
             fill: GameStyle.answerText,
             align: 'center'
-        }).setScale(deviceScale * ds);
+        });
         this.octText.setOrigin(1, 0.5);
 
          this.hexHeader = this.add.text(GameOption.placeX(.02), GameOption.placeY(.75), 'Hex:', {
-             font: GameStyle.answerFont,
+             font: fontSize+GameStyle.answerFont,
              fill: GameStyle.answerText,
              align: 'center'
-         }).setScale(deviceScale * ds);
+         });
          this.hexHeader.setOrigin(0, 0.5);
          this.hexText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.75), '0', {
-             font: GameStyle.answerFont,
+             font: fontSize+GameStyle.answerFont,
              fill: GameStyle.answerText,
              align: 'center'
-         }).setScale(deviceScale * ds);
+         });
          this.hexText.setOrigin(1, 0.5);
 
           this.decHeader = this.add.text(GameOption.placeX(.02), GameOption.placeY(.85), 'Dec:', {
-              font: GameStyle.answerFont,
+              font: fontSize+GameStyle.answerFont,
               fill: GameStyle.answerText,
               align: 'center'
-          }).setScale(deviceScale * ds);
+          });
           this.decHeader.setOrigin(0, 0.5);
           this.decText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.85), '0', {
-              font: GameStyle.answerFont,
+              font: fontSize+GameStyle.answerFont,
               fill: GameStyle.answerText,
               align: 'center'
-          }).setScale(deviceScale * ds);
+          });
           this.decText.setOrigin(1, 0.5);
         
          this.cmdHeader = this.add.text(GameOption.placeX(.5), GameOption.placeY(.05), GameOption.mode, {
-             font: GameStyle.answerFont,
+             font: fontSize+GameStyle.answerFont,
              fill: GameStyle.answerText,
              align: 'center'
-         }).setScale(deviceScale * ds);
+         });
          this.cmdHeader.setOrigin(0.5 , 0.5);
         this.cmdText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.95), '0', {
-            font: GameStyle.answerFont,
+            font: fontSize+GameStyle.answerFont,
             fill: GameStyle.answerText,
             align: 'center'
-        }).setScale(deviceScale * ds);
+        });
         this.cmdText.setOrigin(1, 0.5);
     }
 
@@ -206,15 +207,17 @@ class Calc extends Phaser.Scene {
         var x = dX/2 ;
         var y = game.config.height+(dY/2);
         var yRow = -1;
+        var fontSize = 20 * deviceScale;
 
         // create a new button for each key in buttons array
         for (let key of Object.keys(this.buttons)) {
             this.buttons[key].scene = this;
-            this.buttons[key].width = dX-5;
-            this.buttons[key].height = dX-5;
-            this.buttons[key].textFont = GameStyle.keyFont;
+            this.buttons[key].width = dX*deviceScale-5;
+            this.buttons[key].height = dX*deviceScale-5;
+            this.buttons[key].textFont = fontSize+GameStyle.keyFont; 
             this.buttons[key].textStyle = GameStyle.keyText;
             this.buttons[key].backgroundColor = GameStyle.KeyBackgroundH;
+            this.buttons[key].scale = 1;
             this.buttons[key].posX = x;
             this.buttons[key].posY = y;
             this.button = new TextButton(this.buttons[key]);
@@ -735,46 +738,46 @@ class Calc extends Phaser.Scene {
             scaleX: (target.normScale ? target.normScale * .9 : .9),
             scaleY: (target.normScale ? target.normScale * .9 : .9),
             ease: 'Bounce.easeOut',
-            duration: 100
+            duration: 50
         });
         game.ctx.tweens.add({
             targets: target,
             scaleX: (target.normScale ? target.normScale : 1),
             scaleY: (target.normScale ? target.normScale : 1),
             ease: 'Sine.easeInOut',
-            delay: 100,
-            duration: 100
+            delay: 50,
+            duration: 10
         });
     }
-    onObjectUp (pointer, target) {
-        game.ctx.tweens.add({
-            targets: target,
-            scaleX: (target.normScale ? target.normScale : 1),
-            scaleY: (target.normScale ? target.normScale : 1),
-            ease: 'Sine.easeInOut',
-            duration: 100
-        });
-    }
-    onObjectOver (pointer, target) {
-        // game.ctx.tweens.add({
-        //     targets: target,
-        //     scaleX: 1.1,
-        //     scaleY: 1.1,
-        //     ease: 'Sine.easeInOut',
-        //     duration: 100
-        // });
-        ///target.setTint(0xeb0000);
-    }
-    onObjectOut (pointer, target) {
-        game.ctx.tweens.add({
-            targets: target,
-            scaleX: (target.normScale ? target.normScale : 1),
-            scaleY: (target.normScale ? target.normScale : 1),
-            ease: 'Sine.easeInOut',
-            duration: 100
-        });
-        /// target.setTint(0xffffff);
-    }
+    // onObjectUp (pointer, target) {
+    //     game.ctx.tweens.add({
+    //         targets: target,
+    //         scaleX: (target.normScale ? target.normScale : 1),
+    //         scaleY: (target.normScale ? target.normScale : 1),
+    //         ease: 'Sine.easeInOut',
+    //         duration: 100
+    //     });
+    // }
+    // onObjectOver (pointer, target) {
+    //     // game.ctx.tweens.add({
+    //     //     targets: target,
+    //     //     scaleX: 1.1,
+    //     //     scaleY: 1.1,
+    //     //     ease: 'Sine.easeInOut',
+    //     //     duration: 100
+    //     // });
+    //     ///target.setTint(0xeb0000);
+    // }
+    // onObjectOut (pointer, target) {
+    //     game.ctx.tweens.add({
+    //         targets: target,
+    //         scaleX: (target.normScale ? target.normScale : 1),
+    //         scaleY: (target.normScale ? target.normScale : 1),
+    //         ease: 'Sine.easeInOut',
+    //         duration: 100
+    //     });
+    //     /// target.setTint(0xffffff);
+    // }
 
     createKeyboard() {
         this.input.keyboard.on('keydown_A', function (event) {
@@ -810,7 +813,7 @@ class Calc extends Phaser.Scene {
         Povin.place(this.backTile, 0.5, 0);
 
         // header Tile
-        this.headerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.10), GameStyle.headerBackgroundH).setOrigin(.5, 0);
+        this.headerTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.082), GameStyle.headerBackgroundH).setOrigin(.5, 0);
         Povin.place(this.headerTile, 0.5, 0);
         // question Tile
         // this.questionTile = this.add.rectangle(0, 0, game.config.width, Povin.placeY(.15), GameStyle.footerBackgroundH).setOrigin(.5, 0);
@@ -822,11 +825,12 @@ class Calc extends Phaser.Scene {
     }
 
     createHeader () {
+        var fontSize = 26*deviceScale;
         this.titleHeading = this.add.text(0, 0, 'Povin Super Calc', {
-            font: GameStyle.headerFont,
+            font: fontSize+GameStyle.headerFont,
             fill: GameStyle.headerText,
             align: 'center'
-        }).setScale(deviceScale);
+        });
         this.titleHeading.setOrigin(0.5, 0.5);
         Povin.place(this.titleHeading, 0.5, 0.05);
         // Speaker button to start/stop the background music
@@ -860,8 +864,8 @@ class Calc extends Phaser.Scene {
     createTouch () {
         this.input.on('gameobjectdown', this.onObjectDown);
         //this.input.on('gameobjectup', this.onObjectUp);
-        this.input.on('gameobjectover', this.onObjectOver);
-        this.input.on('gameobjectout', this.onObjectOut);
+        //this.input.on('gameobjectover', this.onObjectOver);
+        //this.input.on('gameobjectout', this.onObjectOut);
     }
     
     createInvaders () {
@@ -879,18 +883,18 @@ class Calc extends Phaser.Scene {
         this.invader.setOrigin(0.5, 0.5);
         Povin.place(this.invader, .5, .18);
         // Time invader
-        this.timeInvader = this.add.sprite(0, 0, 'invader').play('fly').setScale(deviceScale);
-        this.timeInvader.setOrigin(0.5, 0.5);
-        Povin.place(this.timeInvader, .2, .81);
-        game.ctx.tweens.add({
-            targets: this.timeInvader,
-            x: Povin.placeX(.8),
-            y: Povin.placeY(.81),
-            ease: 'Phaser.Math.Easing.Linear',
-            yoyo: true,
-            repeat: -1,
-            duration: GameOption.buzzer
-        });
+        // this.timeInvader = this.add.sprite(0, 0, 'invader').play('fly').setScale(deviceScale);
+        // this.timeInvader.setOrigin(0.5, 0.5);
+        // Povin.place(this.timeInvader, .2, .81);
+        // game.ctx.tweens.add({
+        //     targets: this.timeInvader,
+        //     x: Povin.placeX(.8),
+        //     y: Povin.placeY(.81),
+        //     ease: 'Phaser.Math.Easing.Linear',
+        //     yoyo: true,
+        //     repeat: -1,
+        //     duration: GameOption.buzzer
+        // });
     }
 
     createHero() {

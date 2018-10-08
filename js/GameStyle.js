@@ -1,16 +1,18 @@
 // game UI settings
 var GameStyle = {};
 
-GameStyle.headerFont = '19px Arial';
+GameStyle.headerFont = 'px Arial';
 GameStyle.headerBackgroundH = '0xb92b27'; // #b92b27
 GameStyle.headerText = '#ffffff';
 GameStyle.headerGraphicH = '0xffffff'; //#ffffff
 
-GameStyle.answerFont = '24px Arial';
+GameStyle.answerFont = 'px Arial';
 GameStyle.answerText = '#333333';
 GameStyle.answerCSSH = '0x333333';
 
-GameStyle.keyFont = '20px Arial';
+
+
+GameStyle.keyFont = 'px Arial';
 GameStyle.keyText = '#ffffff';
 GameStyle.KeyBackgroundH = '0x333333'; // #333333
 
