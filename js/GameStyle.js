@@ -1,12 +1,14 @@
 // game UI settings
 var GameStyle = {};
 
+//#2092ea
+
 GameStyle.headerFont = 'px Arial';
 GameStyle.headerBackgroundH = '0xb92b27'; // #b92b27
 GameStyle.headerText = '#ffffff';
 GameStyle.headerGraphicH = '0xffffff'; //#ffffff
 
-GameStyle.answerFont = 'px Arial';
+GameStyle.answerFont = 'px "Courier New", Courier, monospace';
 GameStyle.answerText = '#333333';
 GameStyle.answerCSSH = '0x333333';
 
@@ -15,6 +17,8 @@ GameStyle.answerCSSH = '0x333333';
 GameStyle.keyFont = 'px Arial';
 GameStyle.keyText = '#ffffff';
 GameStyle.KeyBackgroundH = '0x333333'; // #333333
+GameStyle.keyBackgroundOnH = '0x2092ea'; //#2092ea
+GameStyle.keyBackgroundOn2H = '0xff0000'; //#ff0000
 
 
 GameStyle.bodyFont = '18px Arial';

@@ -48,21 +48,30 @@ GameOption.createButtons = function() {
     this.buttons = [{
             text: 'C',
             cmd: 'XC',
+            backgroundKeyHighlight: true,
             row: 0
         },
         {
             text: 'Del',
             cmd: 'Del',
+            backgroundKeyHighlight: true,
             row: 0
         },
         {
             text: '0',
             pVal: '0',
+            mode: {Bin: true, Oct: true, Dec: true, Hex: true},
             row: 0
         },
         {
             text: '.',
             pVal: '.',
+            mode: {
+                Bin: false,
+                Oct: false,
+                Dec: true,
+                Hex: false
+            },
             row: 0
         },
         {
@@ -78,6 +87,8 @@ GameOption.createButtons = function() {
         {
             text: 'Dec',
             cmd: 'Dec',
+            modeGroup: true,
+            default: true,
             row: 0
         },
         
@@ -88,28 +99,46 @@ GameOption.createButtons = function() {
         },
         
         {
-            text: 'MR',
-            cmd: 'MR',
+            text: 'aMR',
+            cmd: 'aMR',
             row: 1
         },
         {
-            text: '',
-            cmd: '',
+            text: 'bMR',
+            cmd: 'bMR',
             row: 1
         },
         {
             text: '1',
             pVal: '1',
+            mode: {
+                Bin: true,
+                Oct: true,
+                Dec: true,
+                Hex: true
+            },
             row: 1
         },
         {
             text: '2',
             pVal: '2',
+            mode: {
+                Bin: false,
+                Oct: true,
+                Dec: true,
+                Hex: true
+            },
             row: 1
         },
         {
             text: '3',
             pVal: '3',
+            mode: {
+                Bin: false,
+                Oct: true,
+                Dec: true,
+                Hex: true
+            },
             row: 1
         },
         {
@@ -120,38 +149,58 @@ GameOption.createButtons = function() {
         {
             text: 'Hex',
             cmd: 'Hex',
+            modeGroup: true,
             row: 1
         },
         {
             text: 'Not',
-            op: '~',
+            cmd: 'Not',
+            logicGroup: true,
             row: 1
         },
         
         
         {
-            text: 'MC',
-            cmd: 'MC',
+            text: 'aMC',
+            cmd: 'aMC',
             row: 2
         },
         {
-            text: '',
-            cmd: '',
+            text: 'bMC',
+            cmd: 'bMC',
             row: 2
         },
         {
             text: '4',
             pVal: '4',
+            mode: {
+                Bin: false,
+                Oct: true,
+                Dec: true,
+                Hex: true
+            },
             row: 2
         },
         {
             text: '5',
             pVal: '5',
+            mode: {
+                Bin: false,
+                Oct: true,
+                Dec: true,
+                Hex: true
+            },
             row: 2
         },
         {
             text: '6',
             pVal: '6',
+            mode: {
+                Bin: false,
+                Oct: true,
+                Dec: true,
+                Hex: true
+            },
             row: 2
         },
         {
@@ -162,37 +211,57 @@ GameOption.createButtons = function() {
         {
             text: 'Oct',
             cmd: 'Oct',
+            modeGroup: true,
             row: 2
         },
         {
             text: 'And',
-            op: '&',
+            cmd: 'And',
+            logicGroup: true,
             row: 2
         },
         
         {
-            text: 'M+',
-            cmd: 'M+',
+            text: 'aM+',
+            cmd: 'aM+',
             row: 3
         },
         {
-            text: '',
-            cmd: '',
+            text: 'bM+',
+            cmd: 'bM+',
             row: 3
         },
         {
             text: '7',
             pVal: '7',
+            mode: {
+                Bin: false,
+                Oct: true,
+                Dec: true,
+                Hex: true
+            },
             row: 3
         },
         {
             text: '8',
             pVal: '8',
+            mode: {
+                Bin: false,
+                Oct: false,
+                Dec: true,
+                Hex: true
+            },
             row: 3
         },
         {
             text: '9',
             pVal: '9',
+            mode: {
+                Bin: false,
+                Oct: false,
+                Dec: true,
+                Hex: true
+            },
             row: 3
         },
         {
@@ -203,37 +272,58 @@ GameOption.createButtons = function() {
         {
             text: 'Bin',
             cmd: 'Bin',
+            modeGroup: true,
             row: 3
         },
         {
             text: 'Or',
-            op: '|',
+            cmd: 'Or',
+            logicGroup: true,
+            default: true,
             row: 3
         },
         
         {
-            text: 'M-',
-            cmd: 'M-',
+            text: 'aM-',
+            cmd: 'aM-',
             row: 4
         },
         {
-            text: '',
-            cmd: '',
+            text: 'bM-',
+            cmd: 'bM-',
             row: 4
         },
         {
             text: 'A',
             pVal: 'A',
+            mode: {
+                Bin: false,
+                Oct: false,
+                Dec: false,
+                Hex: true
+            },
             row: 4
         },
         {
             text: 'B',
             pVal: 'B',
+            mode: {
+                Bin: false,
+                Oct: false,
+                Dec: false,
+                Hex: true
+            },
             row: 4
         },
         {
             text: 'C',
             pVal: 'C',
+            mode: {
+                Bin: false,
+                Oct: false,
+                Dec: false,
+                Hex: true
+            },
             row: 4
         },
         {
@@ -244,11 +334,13 @@ GameOption.createButtons = function() {
         {
             text: 'RGB',
             cmd: 'RGB',
+            modeGroup: true,
             row: 4
         },
         {
             text: 'Xor',
-            op: '^',
+            cmd: 'Xor',
+            logicGroup: true,
             row: 4
         },
         
@@ -265,26 +357,44 @@ GameOption.createButtons = function() {
         {
             text: 'D',
             pVal: 'D',
+            mode: {
+                Bin: false,
+                Oct: false,
+                Dec: false,
+                Hex: true
+            },
             row: 5
         },
         {
             text: 'E',
             pVal: 'E',
+            mode: {
+                Bin: false,
+                Oct: false,
+                Dec: false,
+                Hex: true
+            },
             row: 5
         },
         {
             text: 'F',
             pVal: 'F',
+            mode: {
+                Bin: false,
+                Oct: false,
+                Dec: false,
+                Hex: true
+            },
             row: 5
         },
         {
             text: '(',
-            pVal: '(',
+            op: '(',
             row: 5
         },
         {
             text: ')',
-            pVal: ')',
+            op: ')',
             row: 5
         },
         {

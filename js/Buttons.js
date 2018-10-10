@@ -1,9 +1,103 @@
+class CalcButton extends Phaser.GameObjects.Container {
+    constructor(config) { // {scene, width, height, text, textFont, textStyle, 0xbackgroundColor, 0xbackgroundKeyOn}
+        super(config.scene, 0, 0);
+
+        this.frame = 0; // default frame
+        this.enable = true; // defalt to enabled
+        this.on = false; // default to off
+
+        var myZoom = (config.zoom ? config.zoom : zoom);
+
+        var b1 = config.scene.add.rectangle(0, 0, config.width * myZoom, config.height * myZoom, config.backgroundColor);
+        var b1on = config.scene.add.rectangle(0, 0, config.width * myZoom, config.height * myZoom, config.backgroundKeyOn);
+        b1on.visFrame =1;
+
+        var b2 = config.scene.add.text(0, 0, config.text, {
+            font: config.textFont,
+            fill: config.textStyle,
+            align: 'center',
+        });
+        b2.setOrigin(.5, .5);
+
+        var b3disable = config.scene.add.rectangle(0, 0, config.width * myZoom, config.height * myZoom, config.backgroundColor,.75);
+        b3disable.visFrame = 3;
+
+        this.add([b1, b1on, b2, b3disable]);
+        this.setSize(config.width * myZoom, config.height * myZoom); 
+        this.setScale(config.scale ? config.scale : deviceScale);
+        this.normScale = this.scaleX;
+        this.setEnable();
+        config.scene.add.existing(this);
+    }
+
+    // on = frame 1
+    setOn() {
+        this.setFrame(1);
+        this.on = true;
+    }
+
+    // off = frame 0
+    setOff() {
+        this.setFrame(0);
+        this.on = false;
+    }
+
+    setOnToggle() {
+        if (this.on == false) {
+            this.setOn();
+        } else {
+            this.setOff();
+        }
+    }
+
+
+    // enable = frame 0, normal, default
+    setEnable() {
+        this.setFrame(0);
+        this.setInteractive();
+        this.enable = true;
+    }
+
+    // disable = frame 3
+    setDisable() {
+        this.setFrame(3);
+        this.disableInteractive();
+        this.enable = false;
+    }
+
+    setEnableToggle() {
+        if (this.enable == false) {
+            this.setEnable();
+        } else {
+            this.setDisable();
+        }
+    }
+
+    setFrame(frame) {
+        this.getAll().forEach(function (item) {
+            if (item.visFrame == frame) {
+                item.visible = true;
+            } else {
+                item.visible = false;
+            }
+            if (item.visFrame === undefined) {
+                item.visible = true;
+            }
+
+        }, this);
+        this.frame=frame;
+
+    }
+};
+
 class TextButton extends Phaser.GameObjects.Container {
     constructor(config) { // {scene, width, height, text, textFont, textStyle, 0xbackgroundColor}
         super(config.scene, 0, 0);
 
         var myZoom = (config.zoom ? config.zoom : zoom);
 
+    // config.frame;
+    // off
         var b1 = config.scene.add.rectangle(0, 0, config.width * myZoom, config.height * myZoom, config.backgroundColor);
         var b2 = config.scene.add.text(0, 0, config.text, {
             font: config.textFont,
@@ -19,6 +113,12 @@ class TextButton extends Phaser.GameObjects.Container {
         this.normScale = this.scaleX;
         config.scene.add.existing(this);
     }
+
+    // on
+
+   
+
+    // disabled
 };
 
 class RoundButton extends Phaser.GameObjects.Container {

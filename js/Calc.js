@@ -20,14 +20,16 @@ class Calc extends Phaser.Scene {
         this.tokens = [];
 
         this.hexCSSVal = '';
-        this.memVal = 0;
+        this.amemVal = 0;
+        this.bmemVal = 0;
         this.binVal = 0;
         this.octVal = 0;
         this.hexVal = 0;
         this.decVal = 0;
 
         this.hexCSSValText = '';
-        this.memValText = '';
+        this.amemValText = '';
+        this.bmemValText = '';
         this.binValText = '';
         this.octValText = '';
         this.hexValText = '';
@@ -35,6 +37,7 @@ class Calc extends Phaser.Scene {
 
         // set initial mode to Decimal
         GameOption.mode = 'Dec';
+        GameOption.mode2 = 'Or';
     }
 
     preload() {
@@ -44,7 +47,7 @@ class Calc extends Phaser.Scene {
     create() {
 
         // keyboard
-        this.createKeyboard();
+        this.createKeyboardShortcuts();
 
         // audio
         this.createAudio();
@@ -55,7 +58,7 @@ class Calc extends Phaser.Scene {
         // header
         this.createHeader();
 
-        this.createCSSColor();
+        this.createRGBColor();
 
         // Go button
         //this.createGoButton();
@@ -70,8 +73,6 @@ class Calc extends Phaser.Scene {
 
        // this.createBat();
 
-       
-
         this.createButtons();
 
         this.createAnswerText();
@@ -83,11 +84,8 @@ class Calc extends Phaser.Scene {
     
     } // end create
 
-    createCSSColor() {
-
-        this.hexCSS = this.add.rectangle(0, Povin.placeY(0), Povin.placeX(1), Povin.placeY(.02), GameStyle.answerCSSH).setOrigin(0,0);
-
-        
+    createRGBColor() {
+        this.hexCSS = this.add.rectangle(0, Povin.placeY(0), Povin.placeX(1), Povin.placeY(.02), GameStyle.answerCSSH).setOrigin(0,0); 
     }
 
     createAnswerText() {
@@ -116,18 +114,44 @@ class Calc extends Phaser.Scene {
         this.cmdTile = this.add.rectangle(GameOption.placeX(0), GameOption.placeY(.9), game.config.width, GameOption.scaleY(.1), '0xe6e6e6').setOrigin(0, 0);
         
 
-        this.memHeader = this.add.text(GameOption.placeX(.02), GameOption.placeY(.1), 'Mem:', {
+        this.amemHeader = this.add.text(GameOption.placeX(.02), GameOption.placeY(.1), 'aMem:', {
             font: fontSize+GameStyle.answerFont,
             fill: GameStyle.answerText,
             align: 'center'
         });
-        this.memHeader.setOrigin(0, 0.5);
-        this.memText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.1), '0', {
+        this.amemHeader.setOrigin(0, 0.5);
+        this.amemText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.1), '0', {
             font: fontSize+GameStyle.answerFont,
             fill: GameStyle.answerText,
             align: 'center'
         });
-        this.memText.setOrigin(1, 0.5);
+        this.amemText.setOrigin(1, 0.5);
+
+        this.bmemHeader = this.add.text(GameOption.placeX(.02), GameOption.placeY(.2), 'bMem:', {
+            font: fontSize + GameStyle.answerFont,
+            fill: GameStyle.answerText,
+            align: 'center'
+        });
+        this.bmemHeader.setOrigin(0, 0.5);
+        this.bmemText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.2), '0', {
+            font: fontSize + GameStyle.answerFont,
+            fill: GameStyle.answerText,
+            align: 'center'
+        });
+        this.bmemText.setOrigin(1, 0.5);
+
+        this.orHeader = this.add.text(GameOption.placeX(.02), GameOption.placeY(.3), 'Or:', {
+            font: fontSize + GameStyle.answerFont,
+            fill: GameStyle.answerText,
+            align: 'center'
+        });
+        this.orHeader.setOrigin(0, 0.5);
+        this.orText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.3), '0', {
+            font: fontSize + GameStyle.answerFont,
+            fill: GameStyle.answerText,
+            align: 'center'
+        });
+        this.orText.setOrigin(1, 0.5);
 
         this.binHeader = this.add.text(GameOption.placeX(.02), GameOption.placeY(.55), 'Bin:', {
             font: fontSize+GameStyle.answerFont,
@@ -181,12 +205,12 @@ class Calc extends Phaser.Scene {
           });
           this.decText.setOrigin(1, 0.5);
         
-         this.cmdHeader = this.add.text(GameOption.placeX(.5), GameOption.placeY(.05), GameOption.mode, {
+         this.cmdHeader = this.add.text(GameOption.placeX(.02), GameOption.placeY(.95), GameOption.mode, {
              font: fontSize+GameStyle.answerFont,
              fill: GameStyle.answerText,
              align: 'center'
          });
-         this.cmdHeader.setOrigin(0.5 , 0.5);
+         this.cmdHeader.setOrigin(0 , 0.5);
         this.cmdText = this.add.text(GameOption.placeX(.95), GameOption.placeY(.95), '0', {
             font: fontSize+GameStyle.answerFont,
             fill: GameStyle.answerText,
@@ -217,14 +241,34 @@ class Calc extends Phaser.Scene {
             this.buttons[key].textFont = fontSize+GameStyle.keyFont; 
             this.buttons[key].textStyle = GameStyle.keyText;
             this.buttons[key].backgroundColor = GameStyle.KeyBackgroundH;
+            this.buttons[key].backgroundKeyOn = GameStyle.keyBackgroundOnH;
+
+            if (this.buttons[key].backgroundKeyHighlight == true) { // special for clear and del keys
+                this.buttons[key].backgroundKeyOn = GameStyle.keyBackgroundOn2H;
+            }
             this.buttons[key].scale = 1;
             this.buttons[key].posX = x;
             this.buttons[key].posY = y;
-            this.button = new TextButton(this.buttons[key]);
+            this.button = new CalcButton(this.buttons[key]);
+            this.buttons[key].button = this.button;
             this.button.cmd = this.buttons[key].cmd;
             this.button.pVal = this.buttons[key].pVal;
             this.button.op = this.buttons[key].op;
+            this.button.logicGroup = this.buttons[key].logicGroup;
+            this.button.mode = this.buttons[key].mode;
+            this.button.modeGroup = this.buttons[key].modeGroup;
 
+            // special for clear and del keys
+            if (this.buttons[key].backgroundKeyHighlight == true) {
+                this.button.setOn();
+            }
+
+            // default on for Dec and Or keys
+            if (this.buttons[key].default == true) {
+                this.button.setOn();
+            }
+
+            // zig zag placement starting at lower left
             if (this.buttons[key].row != yRow) {
                 yRow = this.buttons[key].row;
                 y -= dY;
@@ -241,6 +285,9 @@ class Calc extends Phaser.Scene {
         // set GameOption.maxY to "lower height" of answer area
         GameOption.maxY = y-dY/2;   
 
+        // default mode to Dec
+        this.setKeyMode('Dec');
+
     }
 
     
@@ -254,10 +301,6 @@ class Calc extends Phaser.Scene {
         //this.scene.start('Scores', true, false); // go to Scores
     }
 
-    processOp(op) {
-
-
-    }
 
 
     // eval cmdStr and then convert to other base values
@@ -299,7 +342,7 @@ class Calc extends Phaser.Scene {
         var v3 = this.decVal.toString(2);
         this.binVAl = v3;
 
-        this.binValText = this.getBinText(this.decVal);
+        this.binValText = this.getBinPretty(this.decVal);
        
     }
 
@@ -309,6 +352,20 @@ class Calc extends Phaser.Scene {
         if (val >= 0 && val < 65536) {
             var v2 = val.toString(2);
             var V = ('                ' + v2).slice(-16);
+            r = V.slice(0, 4) + ' ' + V.slice(4, 8) + ' ' +
+                V.slice(8, 12) + ' ' + V.slice(12);
+        } else {
+            r = 'overflow';
+        }
+
+        return r;
+    }
+    getBinPretty(val) {
+        // for display
+        var r = '';
+        if (val < 65536) {
+            var v2 = val.toString(2);
+            var V = ('0000000000000000' + v2).slice(-16);
             r = V.slice(0, 4) + ' ' + V.slice(4, 8) + ' ' +
                 V.slice(8, 12) + ' ' + V.slice(12);
         } else {
@@ -476,7 +533,7 @@ class Calc extends Phaser.Scene {
                 return this.getOctText(val);
                 break;
             case 'Bin':
-                return this.getBinText(val);
+                return this.getBinPretty(val);
                 break;
             case 'RGB':
                 //return this.rgbText.text;
@@ -500,19 +557,73 @@ class Calc extends Phaser.Scene {
         this.buildCmdStr(this.tokens);
     }
 
-    getMemAnswer() {
-        var mem = this.getModeVal(this.memVal);
+    getaMemAnswer() {
+        var mem = this.getModeVal(this.amemVal);
         this.tokens = [];
         this.tokens.push({key:'pVal', val:mem});
         this.buildCmdStr(this.tokens);
     }
 
-    updateMemText() {
-        this.memValText = this.getModeText(this.memVal);
-        this.memText.text = this.memValText;
+    updateMemText(){
+        this.updateaMemText();
+        this.updatebMemText();
+        this.updateOrText();
     }
 
-    processCmd(cmd) {
+    updateOrText() {
+        
+        var ans = 0;
+        switch (GameOption.mode2) {
+            case 'Or':
+            ans = this.amemVal | this.bmemVal;
+            this.orText.text = this.getModeText(ans);
+
+            break
+            case 'And':
+            ans = this.amemVal & this.bmemVal;
+            this.orText.text = this.getModeText(ans);
+                
+            break;
+            case 'Xor':
+            ans = this.amemVal ^ this.bmemVal;
+            this.orText.text = this.getModeText(ans);   
+
+            break;
+            case 'Not':
+            ans =  this.amemVal >> 1;
+            this.orText.text = this.getModeText(ans);
+
+            break;
+        }
+
+    }
+
+    updateaMemText() {
+        this.amemValText = this.getModeText(this.amemVal);
+        this.amemText.text = this.amemValText;
+    }
+    updatebMemText() {
+        this.amemValText = this.getModeText(this.amemVal);
+        this.amemText.text = this.amemValText;
+    }
+    getbMemAnswer() {
+        var mem = this.getModeVal(this.bmemVal);
+        this.tokens = [];
+        this.tokens.push({
+            key: 'pVal',
+            val: mem
+        });
+        this.buildCmdStr(this.tokens);
+    }
+
+    updatebMemText() {
+        this.bmemValText = this.getModeText(this.bmemVal);
+        this.bmemText.text = this.bmemValText;
+    }
+
+    processCmd(target) {
+
+        var cmd = target.cmd;
 
         switch (cmd) {
             case '=':
@@ -527,29 +638,86 @@ class Calc extends Phaser.Scene {
                 this.tokens.pop();
                 // build the cmdStr based on the token array
                 this.buildCmdStr(this.tokens);
-             break;
-             case 'M+':
-                this.memVal = this.memVal + this.decVal;
+            break;
+            case 'aM+':
+                this.amemVal = this.amemVal + this.decVal;
                 this.updateMemText();
-             break;
-             case 'M-':
-                this.memVal = this.memVal - this.decVal;
+            break;
+            case 'aM-':
+                this.amemVal = this.amemVal - this.decVal;
                 this.updateMemText();
-             break;
-             case 'MC':
-                this.memVal = 0;
+            break;
+            case 'aMC':
+                this.amemVal = 0;
                 this.updateMemText();
-             break;
-             case 'MR':
-                this.getMemAnswer();
-             break;
+            break;
+            case 'aMR':
+                this.getaMemAnswer();
+            break;
+            case 'bM+':
+                this.bmemVal = this.bmemVal + this.decVal;
+                this.updateMemText();
+            break;
+            case 'bM-':
+                this.bmemVal = this.bmemVal - this.decVal;
+                this.updateMemText();
+            break;
+            case 'bMC':
+                this.bmemVal = 0;
+                this.updateMemText();
+            break;
+            case 'bMR':
+                this.getbMemAnswer();
+            break;
+            case 'Or':
+                // Set Or to on, others to off
+                 this.setLogicGroupOff(target);
+                 target.setOn();
+                GameOption.mode2 = 'Or';
+                this.orHeader.text = GameOption.mode2 + ':';
+                this.updateMemText();
+            break;
+            case 'And':
+                // Set And to on, others to off
+                 this.setLogicGroupOff(target);
+                 target.setOn();
+                GameOption.mode2 = 'And';
+                this.orHeader.text = GameOption.mode2 + ':';
+                this.updateMemText();
+            break;
+            case 'Xor':
+                // Set Xor to on, others to off
+                 this.setLogicGroupOff(target);
+                 target.setOn();
+                GameOption.mode2 = 'Xor';
+                this.orHeader.text = GameOption.mode2 + ':';
+                this.updateMemText();
+            break;
+            case 'Not':
+                // Set Not to on, others to off
+                this.setLogicGroupOff(target);
+                target.setOn();
+                GameOption.mode2 = 'Not';
+                this.orHeader.text = 'a'+GameOption.mode2 + ':';
+                this.updateMemText();
+            break;
+
             case 'RGB':
+                // Set RGB to on, others to off
+                this.setKeyMode('RGB');
+                this.setModeGroupOff(target);
+                target.setOn();
                 GameOption.mode = 'RGB';
                 this.cmdHeader.text = GameOption.mode;
                 this.getAnswer();
                 this.updateMemText();
             break;
              case 'Bin':
+                // Set Bin to on, others to off
+                this.setKeyMode('Bin');
+                this.setModeGroupOff(target);
+                target.setOn();
+                // disable non Bin keys
                 GameOption.mode = 'Bin';
                 this.cmdHeader.text = GameOption.mode;
                 this.getAnswer();
@@ -557,6 +725,11 @@ class Calc extends Phaser.Scene {
 
              break;
              case 'Oct':
+             // Set Oct to on, others to off
+             this.setKeyMode('Oct');
+              this.setModeGroupOff(target);
+              target.setOn();
+             // disable non Oct keys
                 GameOption.mode = 'Oct';
                 this.cmdHeader.text = GameOption.mode;
                 this.getAnswer();
@@ -564,6 +737,12 @@ class Calc extends Phaser.Scene {
 
              break;
              case 'Hex':
+             // Set Hex to on, others to off
+             this.setKeyMode('Hex');
+             this.setModeGroupOff(target);
+             target.setOn();
+
+             // disable non Hex keys
                 GameOption.mode = 'Hex';
                 this.cmdHeader.text = GameOption.mode;
                 this.getAnswer();
@@ -571,6 +750,11 @@ class Calc extends Phaser.Scene {
 
              break;
              case 'Dec':
+             // Set Dec to on, others to off
+             this.setKeyMode('Dec');
+             this.setModeGroupOff(target);
+             target.setOn();
+             // disable non Dec keys
                 GameOption.mode = 'Dec';
                 this.cmdHeader.text = GameOption.mode;
                 this.getAnswer();
@@ -583,6 +767,81 @@ class Calc extends Phaser.Scene {
             break;
 
         }
+    }
+
+    setKeyMode(mode) {
+         for (let key of Object.keys(this.buttons)) {
+              switch (mode) {
+                  case 'Bin':
+                    try {
+                        if (this.buttons[key].mode.Bin == false) {
+                            this.buttons[key].button.setDisable();
+                        } else {
+                            this.buttons[key].button.setEnable();
+                        }
+                    } catch {}
+                   break;
+                   case 'Dec':
+                   try {
+                       if (this.buttons[key].mode.Dec == false) {
+                           this.buttons[key].button.setDisable();
+                       } else {
+                           this.buttons[key].button.setEnable();
+                       }
+                   } catch {}
+                   break;
+                   case 'Oct':
+                   try {
+                       if (this.buttons[key].mode.Oct == false) {
+                           this.buttons[key].button.setDisable();
+                       } else {
+                           this.buttons[key].button.setEnable();
+                       }
+                   } catch {}
+                   break;
+                   case 'Hex':
+                   try {
+                       if (this.buttons[key].mode.Hex == false) {
+                           this.buttons[key].button.setDisable();
+                       } else {
+                           this.buttons[key].button.setEnable();
+                       }
+                   } catch {}
+                   break;
+                   case 'RGB':
+                   try {
+                       if (this.buttons[key].mode.RGB == false) {
+                           this.buttons[key].button.setDisable();
+                       } else {
+                           this.buttons[key].button.setEnable();
+                       }
+                   } catch {}
+                   break;
+              }
+         }
+
+    }
+
+    setModeGroupOff(target) {
+        // mode = Bin, Oct, Dec, Hex, RGB
+        for (let key of Object.keys(this.buttons)) {
+            if (this.buttons[key].modeGroup == true) {
+                this.buttons[key].button.setOff();
+            }
+        }
+    }
+
+    setLogicGroupOff(target) {
+        // logic = And, Or, Xor, Not
+        for (let key of Object.keys(this.buttons)) {
+            if (this.buttons[key].logicGroup == true) {
+                this.buttons[key].button.setOff();
+            }
+        }
+    }
+
+    setMode(mode) {
+        // mode = Bin, Oct, Dec, Hex, RGB
     }
 
     // build the cmdStr based on the token array
@@ -624,6 +883,9 @@ class Calc extends Phaser.Scene {
     }
 
     processT(t) {
+        // ignore 
+        if (t=='') {return}
+
         var modeToken = '';
         // for calculation - calculate in decimal
         var expandedToken = t;
@@ -673,9 +935,16 @@ class Calc extends Phaser.Scene {
     processOp(target) {
 
         if (target.op == '+/-') {
+
+            // last element must be pVal to perform this op
+            var l = this.tokens[this.tokens.length - 1];
+            if (l.key != 'pVal') {
+                return
+            }
+            
             // remove the last token from array
             var v1 = this.tokens.pop();
-            var v = v1.val;
+            var v = ''+v1.val; // convert to string
 
             // check if token begins with '-'
             if (v.charAt(0) === '-') {
@@ -697,31 +966,28 @@ class Calc extends Phaser.Scene {
 
     }
 
-    processKey(target) {
+    processKeyPress(target) {
 
         if (target.pVal) {
 
+            
             this.tokens.push({key: 'pVal', val:target.pVal});
 
 
         } else if (target.op) {
+            
 
             this.processOp(target);
 
-           
-
 
         } else if (target.cmd) {
-
-            //this.tokens.push(target.cmd);
-            this.processCmd(target.cmd);
+            
+            this.processCmd(target);
 
         }
 
         // build the cmdStr based on the token array
         this.buildCmdStr(this.tokens);
-
-
     }
 
 
@@ -731,7 +997,7 @@ class Calc extends Phaser.Scene {
     onObjectDown(pointer, target) {
         //console.log(target.cmd);
 
-        game.ctx.processKey(target);
+        game.ctx.processKeyPress(target);
 
         game.ctx.tweens.add({
             targets: target,
@@ -779,7 +1045,7 @@ class Calc extends Phaser.Scene {
     //     /// target.setTint(0xffffff);
     // }
 
-    createKeyboard() {
+    createKeyboardShortcuts() {
         this.input.keyboard.on('keydown_A', function (event) {
             game.ctx.actionOnClick1({
                 ctx: game.ctx
