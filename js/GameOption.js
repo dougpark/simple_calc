@@ -1,4 +1,12 @@
-// game defined options
+/**************************************************************************************
+ * GameOptions Class
+ * @author Doug Park
+ * @version v1.0
+ * @desc Global game options go here
+ * @date 2018-10-10
+ **************************************************************************************/
+
+ // game defined options
 var GameOption = {};
 
 GameOption.next = 5;

@@ -2,7 +2,7 @@
  * ScaleIt Scene (Povin Super Calc)
  * @author Doug Park
  * @version v1.0
- * @desc Display Menu Options
+ * @desc Display 
  * @date 2018-09-06
  **************************************************************************************/
 "use strict";

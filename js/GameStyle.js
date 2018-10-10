@@ -1,3 +1,10 @@
+/**************************************************************************************
+ * Global Game Styles
+ * @author Doug Park
+ * @version v1.0
+ * @desc Game Styles such as text color and fonts
+ * @date 2018-09-06
+ **************************************************************************************/
 // game UI settings
 var GameStyle = {};
 
@@ -11,8 +18,6 @@ GameStyle.headerGraphicH = '0xffffff'; //#ffffff
 GameStyle.answerFont = 'px "Courier New", Courier, monospace';
 GameStyle.answerText = '#333333';
 GameStyle.answerCSSH = '0x333333';
-
-
 
 GameStyle.keyFont = 'px Arial';
 GameStyle.keyText = '#ffffff';

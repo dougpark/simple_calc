@@ -3,8 +3,8 @@
 * @author Doug Park, Povingames.com
 * @email doug@povingames.com
 * @version v1.0
-* @desc Play the Povin Speed Super Calc game
-* @date 2018-09-06
+* @desc Play the Povin Super Calc game
+* @date 2018-10-10
 **************************************************************************************/
 "use strict"
 
@@ -941,7 +941,7 @@ class Calc extends Phaser.Scene {
             if (l.key != 'pVal') {
                 return
             }
-            
+
             // remove the last token from array
             var v1 = this.tokens.pop();
             var v = ''+v1.val; // convert to string

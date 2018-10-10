@@ -1,3 +1,12 @@
+/**************************************************************************************
+ * Button Classes
+ * @author Doug Park
+ * @version v1.0
+ * @desc Classes to create buttons
+ * @date 2018-10-10
+ **************************************************************************************/
+"use strict";
+
 class CalcButton extends Phaser.GameObjects.Container {
     constructor(config) { // {scene, width, height, text, textFont, textStyle, 0xbackgroundColor, 0xbackgroundKeyOn}
         super(config.scene, 0, 0);
