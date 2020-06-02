@@ -1,6 +1,6 @@
-# Povin Calc
+# Simple Calc
 
-A simple calculator
+A simple programmer calculator
 
 Built on [phaser.io](https://phaser.io) Phaser 3 framework
 

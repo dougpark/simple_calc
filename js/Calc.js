@@ -67,7 +67,7 @@ class Calc extends Phaser.Scene {
         this.createTouch();
 
         // Animate the invaders
-        this.createInvaders();
+        //this.createInvaders();
 
         //this.createHero();
 
