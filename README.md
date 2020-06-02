@@ -10,5 +10,5 @@ Javascript
 
 Should support most mobile phone screen resolutions above 400px width
 
-Play the game at povingames.com/calc
+Play the game at [povingames.com/calc](https://povingames.com/calc)
 
